@@ -1,3 +1,6 @@
 # Team Roster
-Sarah Kayembe\
+Sarah Kayembe
+Ethan Gilles
+Michael Yattaw
+Sarah Lawrence
 Ben Gaudreau
