@@ -157,46 +157,32 @@ bindingoffset=0mm, top=20mm,bottom=20mm}
     \hline
 \end{longtable}
 
-\section{System Management Use Cases}
 \begin{longtable}{|p{4cm}|p{10cm}|}
     \hline
-    \textbf{Use Case Name} & System Management \\
+    \textbf{Use Case Name} & Automated Report Processing \\
     \hline
-    \textbf{Actors} & System Administrator (IT) \\
+    \textbf{Actors} & System (Automated Processes) \\
     \hline
-    \textbf{Preconditions} & The system administrator is logged into the system with administrative privileges. \\
+    \textbf{Preconditions} & The system is running and has access to relevant data sources. \\
     \hline
     \textbf{Normal Flow} & \begin{enumerate}
-        \item The system administrator accesses the "User Management" section.
-        \item The administrator selects an action: create, edit, or delete a user.
-        \item \textbf{Create User:} \begin{itemize}
-            \item The administrator enters user details (name, role, email, password).
-            \item The administrator selects the role of the user (nurse or nurse supervisor).
-            \item The system validates the details and creates the user account.
-            \item The system sends a notification to the new user.
-        \end{itemize}
-        \item \textbf{Edit User:} \begin{itemize}
-            \item The administrator searches for an existing user.
-            \item The administrator selects and modifies user details.
-            \item The system saves the changes.
-        \end{itemize}
-        \item \textbf{Delete User:} \begin{itemize}
-            \item The administrator selects a user to delete.
-            \item The administrator confirms the deletion.
-            \item The system removes the user and handles associated data accordingly.
-        \end{itemize}
+        \item The system collects contraceptive data from inventory records.
+        \item The system calculates current inventory levels based on stock updates.
+        \item The system generates a financial summary report, including revenue and expenses.
+        \item The system identifies restocking needs by comparing inventory levels with predefined thresholds.
+        \item The system compiles the processed data into a structured report.
+        \item The system sends notifications to relevant stakeholders if restocking is required.
     \end{enumerate} \\
     \hline
-    \textbf{Postconditions} & The user is successfully created, edited, or deleted, with the system reflecting the changes. \\
+    \textbf{Postconditions} & The report is successfully generated and relevant stakeholders are informed about inventory and financial summaries. \\
     \hline
     \textbf{Alternate Flows and Exceptions} & \begin{itemize}
-        \item \textbf{Duplicate User}: If a user with the same email or username exists, the system shows an error.
-        \item \textbf{Unauthorized Access}: If a user without sufficient privileges attempts to manage users, access is denied with an error message.
+        \item \textbf{Data Unavailable}: If inventory or financial data is missing, the system logs an error and alerts administrators.
+        \item \textbf{Low Inventory}: If inventory levels fall below the threshold, the system triggers an urgent restocking request.
     \end{itemize} \\
     \hline
     \textbf{Non-functional Requirements} & \begin{itemize}
-        \item User actions (creation, deletion, editing) must be logged for audit purposes.
-        \item If deleting a user, the system should offer a warning.
+        \item The system should log all automated actions for auditing purposes.
     \end{itemize} \\
     \hline
 \end{longtable}
