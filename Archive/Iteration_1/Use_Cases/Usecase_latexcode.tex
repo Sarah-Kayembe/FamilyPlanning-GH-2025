@@ -1,0 +1,206 @@
+% Author:   Sarah Lawrence
+% Date: April 1,2025
+
+\documentclass{article}
+\usepackage{graphicx} 
+\usepackage{enumitem}
+\usepackage{array}
+\usepackage{longtable}
+\renewcommand\familydefault{\sfdefault}
+\usepackage{tgheros}
+\usepackage{amsmath,amssymb,amsthm,textcomp}
+\usepackage{multicol}
+\usepackage{tikz}
+\usepackage{courier}
+
+
+\usepackage{geometry}
+\geometry{left=25mm,right=25mm,%
+bindingoffset=0mm, top=20mm,bottom=20mm}
+\newcommand{\linia}{\rule{\linewidth}{0.5pt}}
+
+
+\linespread{1.3}
+% Titles
+\makeatletter
+\renewcommand{\maketitle}{
+\begin{center}
+\vspace{2ex}
+{\huge \textsc{\@title}}
+\vspace{1ex}
+\\
+\linia\\
+\@author \hfill \@date
+\vspace{4ex}
+\end{center}
+}
+\makeatother
+%%%
+
+
+\begin{document}
+
+
+\title{Use Cases}
+
+\author{University of Southern Maine}
+
+\date{04/1/2025}
+
+\maketitle
+
+\section{Monthly Report Use Cases}
+\renewcommand{\arraystretch}{1.3} % Increase row height for readability
+
+\begin{longtable}{| p{5cm} | p{10cm} |}
+    \hline
+    \multicolumn{2}{|c|}{\textbf{Create Monthly Report}} \\
+    \hline
+    \textbf{Actors} & Nurse, Nurse Supervisor \\
+    \hline
+    \textbf{Preconditions} & 
+    \begin{itemize}
+        \item The nurse is logged into the system.
+        \item The nurse has the necessary permissions to generate the monthly report.
+    \end{itemize} \\
+    \hline
+    \textbf{Normal Flow} & 
+    \begin{enumerate}
+        \item The nurse logs into the system.
+        \item The nurse generates the monthly report.
+        \item The nurse modifies and completes the report.
+        \item The nurse submits the report.
+        \item The system notifies the nurse supervisor that the report is ready for review.
+        \item The nurse supervisor reviews the report.
+        \item The nurse supervisor approves the report.
+    \end{enumerate} \\
+    \hline
+    \textbf{Postconditions} & 
+    \begin{itemize}
+        \item The report is successfully submitted and approved.
+        \item The report is stored in the system for future reference.
+    \end{itemize} \\
+    \hline
+    \textbf{Alternate Flows and Exceptions} & 
+    \textbf{Missing Required Data:} If the nurse attempts to create the report without entering all required data, the system displays an error message “Please fill out the required fields before submitting.” \\
+    \hline
+    \textbf{Non-functional Requirements} & The interface should be user-friendly. \\
+    \hline
+\end{longtable}
+
+\begin{longtable}{| p{5cm} | p{10cm} |}
+    \hline
+    \multicolumn{2}{|c|}{\textbf{Modifying Monthly Report}} \\
+    \hline
+    \textbf{Actors} & Nurse \\
+    \hline
+    \textbf{Preconditions} & 
+    \begin{itemize}
+        \item The nurse is logged into the system.
+        \item A draft report exists for the current month.
+    \end{itemize} \\
+    \hline
+    \textbf{Normal Flow} & 
+    \begin{enumerate}
+        \item The nurse selects an existing monthly report.
+        \item The nurse makes modifications to the report content.
+        \item The nurse saves the changes.
+        \item The nurse submits the modified report.
+    \end{enumerate} \\
+    \hline
+    \textbf{Postconditions} & The updated report is saved and ready for review by the nurse supervisor. \\
+    \hline
+    \textbf{Alternate Flows and Exceptions} & 
+    \begin{itemize}
+        \item \textbf{Report Already Submitted:} If the report is already submitted, the system prevents modifications and displays message “Form has already been submitted for this month.”
+        \item \textbf{Unauthorized Access:} If the nurse attempts to access the report creation feature without the proper role or permissions, the system displays an error: “You do not have permission to access this report.”
+    \end{itemize} \\
+    \hline
+    \textbf{Non-functional Requirements} & The interface should clearly tell the user when a new monthly report is ready and if completed. \\
+    \hline
+\end{longtable}
+
+\begin{longtable}{| p{5cm} | p{10cm} |}
+    \hline
+    \multicolumn{2}{|c|}{\textbf{Approve or Return Report}} \\
+    \hline
+    \textbf{Actors} & Nurse Supervisor \\
+    \hline
+    \textbf{Preconditions} & 
+    \begin{itemize}
+        \item The nurse supervisor is logged into the system.
+        \item A monthly report has been submitted by the nurse.
+    \end{itemize} \\
+    \hline
+    \textbf{Normal Flow} & 
+    \begin{enumerate}
+        \item The nurse supervisor reviews the submitted monthly report.
+        \item The nurse supervisor checks the report for completeness and accuracy.
+        \item If satisfactory, the nurse supervisor approves the report.
+        \item If unsatisfactory, the nurse supervisor returns it with comments for revision.
+    \end{enumerate} \\
+    \hline
+    \textbf{Postconditions} & 
+    \begin{itemize}
+        \item If approved, the report is marked as finalized in the system.
+        \item If returned, the report is sent back to the nurse for modification.
+    \end{itemize} \\
+    \hline
+    \textbf{Alternate Flows and Exceptions} & 
+    \begin{itemize}
+        \item \textbf{Report Invalid:} If the report does not meet the minimum required criteria, the nurse supervisor sends it back for revision.
+        \item \textbf{Report Already Approved:} If the nurse supervisor attempts to return a report that has already been approved, the system shows an error.
+        \item \textbf{Unauthorized Access:} If the nurse supervisor attempts to access the report without the proper role or permissions, the system displays an error.
+    \end{itemize} \\
+    \hline
+    \textbf{Non-functional Requirements} & The system must store versions of the report for history tracking. \\
+    \hline
+\end{longtable}
+
+\section{System Management Use Cases}
+\begin{longtable}{|p{4cm}|p{10cm}|}
+    \hline
+    \textbf{Use Case Name} & System Management \\
+    \hline
+    \textbf{Actors} & System Administrator (IT) \\
+    \hline
+    \textbf{Preconditions} & The system administrator is logged into the system with administrative privileges. \\
+    \hline
+    \textbf{Normal Flow} & \begin{enumerate}
+        \item The system administrator accesses the "User Management" section.
+        \item The administrator selects an action: create, edit, or delete a user.
+        \item \textbf{Create User:} \begin{itemize}
+            \item The administrator enters user details (name, role, email, password).
+            \item The administrator selects the role of the user (nurse or nurse supervisor).
+            \item The system validates the details and creates the user account.
+            \item The system sends a notification to the new user.
+        \end{itemize}
+        \item \textbf{Edit User:} \begin{itemize}
+            \item The administrator searches for an existing user.
+            \item The administrator selects and modifies user details.
+            \item The system saves the changes.
+        \end{itemize}
+        \item \textbf{Delete User:} \begin{itemize}
+            \item The administrator selects a user to delete.
+            \item The administrator confirms the deletion.
+            \item The system removes the user and handles associated data accordingly.
+        \end{itemize}
+    \end{enumerate} \\
+    \hline
+    \textbf{Postconditions} & The user is successfully created, edited, or deleted, with the system reflecting the changes. \\
+    \hline
+    \textbf{Alternate Flows and Exceptions} & \begin{itemize}
+        \item \textbf{Duplicate User}: If a user with the same email or username exists, the system shows an error.
+        \item \textbf{Unauthorized Access}: If a user without sufficient privileges attempts to manage users, access is denied with an error message.
+    \end{itemize} \\
+    \hline
+    \textbf{Non-functional Requirements} & \begin{itemize}
+        \item User actions (creation, deletion, editing) must be logged for audit purposes.
+        \item If deleting a user, the system should offer a warning.
+    \end{itemize} \\
+    \hline
+\end{longtable}
+
+% You can replicate this structure for the other use cases: Approve or Return Report and System Management.
+
+\end{document}
