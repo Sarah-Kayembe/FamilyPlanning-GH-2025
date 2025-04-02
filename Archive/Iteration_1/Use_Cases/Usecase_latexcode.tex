@@ -1,4 +1,4 @@
-% Author:   Sarah Lawrence
+% Author:   Sarah Lawrence & Sarah Kayembe
 % Date: April 1,2025
 
 \documentclass{article}
@@ -48,6 +48,443 @@ bindingoffset=0mm, top=20mm,bottom=20mm}
 \date{04/1/2025}
 
 \maketitle
+\section{Patient Management System}
+\renewcommand{\arraystretch}{1.3} % Increase row height for readability
+
+\begin{longtable}{| p{5cm} | p{10cm} |}
+    \hline
+    \multicolumn{2}{|c|}{\textbf{Login}} \\
+    \hline
+    \textbf{Actors} & Nurse, Nurse Supervisor, Administrator \\
+    \hline
+    \textbf{Preconditions} & 
+    \begin{itemize}
+        \item The user has a registered account in the system.
+        \item The system is online and accessible.
+    \end{itemize} \\
+    \hline
+    \textbf{Normal Flow} & 
+    \begin{enumerate}
+        \item The user navigates to the login page.
+        \item The user enters their username and password.
+        \item The system verifies the credentials.
+        \item If authentication is successful, the system grants access to the user.
+        \item The system redirects the user to the dashboard based on their role.
+    \end{enumerate} \\
+    \hline
+    \textbf{Postconditions} & 
+    \begin{itemize}
+        \item The user is authenticated and granted access.
+        \item The system logs the login event.
+    \end{itemize} \\
+    \hline
+    \textbf{Alternate Flows and Exceptions} & 
+    \textbf{Incorrect Credentials:}  
+    \begin{enumerate}
+        \item If the entered credentials are incorrect, the system displays an error message: “Invalid username or password.”
+        \item The user is prompted to try again.
+    \end{enumerate}\\
+    
+    \hline
+    \textbf{Non-functional Requirements} & 
+    \begin{itemize}
+        \item Password hashing.
+    \end{itemize} \\
+    \hline
+\end{longtable}
+
+\renewcommand{\arraystretch}{1.3} % Increase row height for readability
+
+\begin{longtable}{| p{5cm} | p{10cm} |}
+    \hline
+    \multicolumn{2}{|c|}{\textbf{Find Existing Patient}} \\
+    \hline
+    \textbf{Actors} & Nurse \\
+    \hline
+    \textbf{Preconditions} & 
+    \begin{itemize}
+        \item The nurse is authenticated.
+        \item Patient(s) exist in the system.
+    \end{itemize} \\
+    \hline
+    \textbf{Normal Flow} & 
+    \begin{enumerate}
+        \item The nurse selects "Find Patient."
+        \item The system displays the patient search interface.
+        \item The nurse enters at least one search term (e.g., name, ID, age, village).
+        \item The system processes the search and returns results:
+        \begin{itemize}
+            \item If there is an exact match, the system auto-selects the patient.
+            \item If multiple matches exist, the system ranks results by relevance.
+        \end{itemize}
+        \item The nurse selects the correct patient from the list.
+        \item The system displays the full patient record.
+    \end{enumerate} \\
+    \hline
+    \textbf{Postconditions} & 
+    \begin{itemize}
+        \item The patient's record is successfully displayed.
+    \end{itemize} \\
+    \hline
+    \textbf{Alternate Flows and Exceptions} & 
+    \textbf{A1: No Results Found:}  
+    \begin{enumerate}
+        \item The system displays a message: "No matching patient found."
+        \item The system suggests: "Register new patient?"
+    \end{enumerate}
+    
+    \textbf{Invalid Search Input:}  
+    \begin{enumerate}
+        \item If the nurse enters invalid characters or an incomplete search term, the system highlights the error.
+        \item The system prompts the nurse to enter a valid search term.
+    \end{enumerate} \\
+    \hline
+    \textbf{Non-functional Requirements} & 
+    \begin{itemize}
+        \item The user interface should be intuitive and easy to navigate.
+    \end{itemize} \\
+    \hline
+\end{longtable}
+
+\renewcommand{\arraystretch}{1.3} % Increase row height for readability
+
+\begin{longtable}{| p{5cm} | p{10cm} |}
+    \hline
+    \multicolumn{2}{|c|}{\textbf{Add New Patient}} \\
+    \hline
+    \textbf{Actors} & Nurse \\
+    \hline
+    \textbf{Preconditions} & 
+    \begin{itemize}
+        \item Nurse is authenticated (completed Login).
+        \item No duplicate patient exists.
+    \end{itemize} \\
+    \hline
+    \textbf{Normal Flow} & 
+    \begin{enumerate}
+        \item Nurse selects "Register New Patient."
+        \item The system displays a form with required fields.
+        \item Nurse enters data.
+        \item System validates:
+        \begin{itemize}
+            \item \(\text{Age} \geq 15 \text{ and } \leq 50\)
+        
+            \item \(\text{Parity} \leq \text{Age} - 12\)
+        \end{itemize}
+
+        \item Generates patient ID.
+        \item Saves record.
+        \item Displays confirmation: "Patient [Name] registered. ID: [ID]."
+    \end{enumerate} \\
+    \hline
+    \textbf{Postconditions} & 
+    \begin{itemize}
+        \item Patient record is searchable.
+        \item Initial visit log entry created.
+    \end{itemize} \\
+    \hline
+    \textbf{Alternate Flows and Exceptions} & 
+    \textbf{A1: Duplicate Detected}  
+    \begin{enumerate}
+        \item System flags potential matches.
+        \item Nurse chooses:
+        \begin{itemize}
+            \item "Find existing Patient."
+            \item "Register as new" (overrides warning).
+        \end{itemize}
+    \end{enumerate}
+
+    \textbf{A2: High-Risk Patient (Age $<$ 20 \text{ or } Parity $>$ 4)}
+
+  
+    \begin{enumerate}
+        \item System alerts: "High-risk profile - consult physician."
+        \item Requires checkbox confirmation: "Counseling advised."
+    \end{enumerate}
+
+    \textbf{Exceptions}  
+    \begin{enumerate}
+        \item System highlights invalid fields.
+        \item Blocks submission until corrected.
+    \end{enumerate} \\
+    \hline
+    \textbf{Non-functional Requirements} & \\
+    \hline
+\end{longtable}
+
+\renewcommand{\arraystretch}{1.3} % Increase row height for readability
+
+\begin{longtable}{| p{5cm} | p{10cm} |}
+    \hline
+    \multicolumn{2}{|c|}{\textbf{Edit Patient Info}} \\
+    \hline
+    \textbf{Actors} & Nurse \\
+    \hline
+    \textbf{Preconditions} & 
+    \begin{itemize}
+        \item Nurse is authenticated.
+        \item Patient record exists.
+    \end{itemize} \\
+    \hline
+    \textbf{Normal Flow} & 
+    \begin{enumerate}
+        \item Nurse finds patient.
+        \item Selects "Edit Record."
+        \item System displays:
+        \begin{itemize}
+            \item Current values (editable fields).
+            \item Non-editable fields (e.g., Patient ID).
+        \end{itemize}
+        \item Nurse makes changes.
+        \item System validates:
+        \begin{itemize}
+            \item Age $\geq$ 15 (if modified).
+            \item Parity $\leq$ Age - 12.
+        \end{itemize}
+
+        \item Saves changes with conflict detection.
+        \item Displays: "Record updated."
+    \end{enumerate} \\
+    \hline
+    \textbf{Postconditions} & 
+    \begin{itemize}
+        \item Patient record updated.
+    \end{itemize} \\
+    \hline
+    \textbf{Alternate Flows and Exceptions} & 
+    \textbf{Field-Level Undo}  
+    \begin{enumerate}
+        \item Nurse clicks "Revert" next to changed field.
+        \item System restores previous value without full save.
+    \end{enumerate}
+
+    \textbf{Validation Failure}  
+    \begin{enumerate}
+        \item Rejects save, highlights invalid fields.
+    \end{enumerate} \\
+    \hline
+    \textbf{Non-functional Requirements} &  \\
+    \hline
+\end{longtable}
+
+\renewcommand{\arraystretch}{1.3} % Increase row height for readability
+
+\begin{longtable}{| p{5cm} | p{10cm} |}
+    \hline
+    \multicolumn{2}{|c|}{\textbf{View Patient Info}} \\
+    \hline
+    \textbf{Actors} & Nurse \\
+    \hline
+    \textbf{Preconditions} & 
+    \begin{itemize}
+        \item User is authenticated.
+        \item Patient record exists.
+    \end{itemize} \\
+    \hline
+    \textbf{Normal Flow} & 
+    \begin{enumerate}
+        \item User finds patient.
+        \item System displays Patient Record.
+    \end{enumerate} \\
+    \hline
+    \textbf{Postconditions} & 
+    \begin{itemize}
+        \item Patient record remains unchanged.
+    \end{itemize} \\
+    \hline
+    \textbf{Alternate Flows and Exceptions} & 
+    \textbf{Sensitive Data Redaction}  
+    \begin{enumerate}
+        \item Displays "[Restricted - contact supervisor]".
+    \end{enumerate}
+
+    \textbf{Exceptions}  
+    \begin{enumerate}
+        \item Displays "Partial data available."
+    \end{enumerate} \\
+    \hline
+    \textbf{Non-functional Requirements} &  \\
+    \hline
+\end{longtable}
+
+
+\renewcommand{\arraystretch}{1.3} % Increase row height for readability
+
+\begin{longtable}{| p{5cm} | p{10cm} |}
+    \hline
+    \multicolumn{2}{|c|}{\textbf{Manage Appointments}} \\
+    \hline
+    \textbf{Actors} & Nurse \\
+    \hline
+    \textbf{Preconditions} & 
+    \begin{itemize}
+        \item User is authenticated.
+        \item Patient exists in system.
+        \item Clinic calendar is configured.
+    \end{itemize} \\
+    \hline
+    \textbf{Normal Flow} & 
+    \begin{enumerate}
+        \item User selects patient.
+        \item Chooses "Schedule Appointment."
+        \item System displays:
+        \begin{itemize}
+            \item Available slots.
+            \item Provider availability.
+        \end{itemize}
+        \item User selects date/time + service type.
+        \item System:
+        \begin{itemize}
+            \item Blocks calendar slot.
+            \item Updates patient visit timeline.
+        \end{itemize}
+    \end{enumerate} \\
+    \hline
+    \textbf{Postconditions} & 
+    \begin{itemize}
+        \item Appointment reflected in clinic calendar.
+    \end{itemize} \\
+    \hline
+    \textbf{Alternate Flows and Exceptions} & 
+    \textbf{A1: Walk-In Appointment}  
+    \begin{enumerate}
+        \item Marks as "Walk-In" instead of scheduled.
+    \end{enumerate}
+
+    \textbf{A2: Reschedule}  
+    \begin{enumerate}
+        \item Detects conflict with existing method.
+    \end{enumerate}
+
+    \textbf{E1: Double-Booking}  
+    \begin{enumerate}
+        \item Flags "Slot taken by [Patient]."
+    \end{enumerate} \\
+    \hline
+    \textbf{Non-functional Requirements} &  \\
+    \hline
+\end{longtable}
+
+\renewcommand{\arraystretch}{1.3} % Increase row height for readability
+
+\begin{longtable}{| p{5cm} | p{10cm} |}
+    \hline
+    \multicolumn{2}{|c|}{\textbf{Generate Patient Report}} \\
+    \hline
+    \textbf{Actors} & Nurse \\
+    \hline
+    \textbf{Preconditions} & 
+    \begin{itemize}
+        \item User is authenticated.
+        \item Patient has $\geq$ 1 recorded visit.
+    \end{itemize} \\
+    \hline
+    \textbf{Normal Flow} & 
+    \begin{enumerate}
+        \item User selects patient.
+        \item Chooses "Generate Report."
+        \item Generates PDF with Patient records.
+        \item Auto-saves.
+    \end{enumerate} \\
+    \hline
+    \textbf{Postconditions} & 
+    \begin{itemize}
+        \item PDF stored.
+    \end{itemize} \\
+    \hline
+    \textbf{Alternate Flows and Exceptions} & 
+    \textbf{Insufficient Data}  
+    \begin{enumerate}
+        \item Shows "Minimum 1 visit required."
+    \end{enumerate} \\
+    \hline
+    \textbf{Non-functional Requirements} &  \\
+    \hline
+\end{longtable}
+
+\renewcommand{\arraystretch}{1.3} % Increase row height for readability
+
+\begin{longtable}{| p{5cm} | p{10cm} |}
+    \hline
+    \multicolumn{2}{|c|}{\textbf{Manage User Roles}} \\
+    \hline
+    \textbf{Actors} & Nurse Supervisor \\
+    \hline
+    \textbf{Preconditions} & 
+    \begin{itemize}
+        \item Supervisor is authenticated.
+        \item Target user exists in system.
+    \end{itemize} \\
+    \hline
+    \textbf{Normal Flow} & 
+    \begin{enumerate}
+        \item Supervisor selects "User Management."
+        \item Searches for user.
+        \item System displays:
+        \begin{itemize}
+            \item Current role/permissions.
+        \end{itemize}
+        \item Supervisor:
+        \begin{itemize}
+            \item Modifies role (Nurse → Senior Nurse).
+        \end{itemize}
+        \item System:
+        \begin{itemize}
+            \item Displays changes.
+        \end{itemize}
+    \end{enumerate} \\
+    \hline
+    \textbf{Postconditions} & 
+    \begin{itemize}
+        \item New permissions take immediate effect.
+    \end{itemize} \\
+    \hline
+    \textbf{Alternate Flows and Exceptions} & 
+    \textbf{E1: Privilege Escalation}  
+    \begin{enumerate}
+        \item Blocks if target role $\geq$ supervisor's.
+    \end{enumerate} \\
+    \hline
+    \textbf{Non-functional Requirements} &  \\
+    \hline
+\end{longtable}
+
+\renewcommand{\arraystretch}{1.3} % Increase row height for readability
+
+\begin{longtable}{| p{5cm} | p{10cm} |}
+    \hline
+    \multicolumn{2}{|c|}{\textbf{View User Info}} \\
+    \hline
+    \textbf{Actors} & Nurse Supervisor \\
+    \hline
+    \textbf{Preconditions} & 
+    \begin{itemize}
+        \item Supervisor is authenticated.
+        \item Target user exists in system.
+    \end{itemize} \\
+    \hline
+    \textbf{Normal Flow} & 
+    \begin{enumerate}
+        \item Supervisor navigates to User Management.
+        \item System displays user info.
+    \end{enumerate} \\
+    \hline
+    \textbf{Postconditions} & 
+    \begin{itemize}
+        \item No data modified.
+    \end{itemize} \\
+    \hline
+    \textbf{Alternate Flows} & 
+    \textbf{A1: Self-View}  
+    \begin{enumerate}
+        \item User views own profile.
+    \end{enumerate} \\
+    \hline
+    \textbf{Exceptions} &  \\
+    \hline
+    \textbf{Non-functional Requirements} &  \\
+    \hline
+\end{longtable}
 
 \section{Monthly Report Use Cases}
 \renewcommand{\arraystretch}{1.3} % Increase row height for readability
