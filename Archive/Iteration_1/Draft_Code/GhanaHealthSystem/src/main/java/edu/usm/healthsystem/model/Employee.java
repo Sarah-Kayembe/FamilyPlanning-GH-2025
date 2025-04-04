@@ -4,6 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Represents an employee in the health system.
+ * Implements Client interface for authentication and identification.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,10 +22,13 @@ public class Employee implements Client {
 
     @Override
     public String getUsername() { return username; }
+
     @Override
     public String getName() { return name; }
+
     @Override
     public String getLastName() { return lastName; }
+
     @Override
     public String getPassword() { return passwordHash; }
 

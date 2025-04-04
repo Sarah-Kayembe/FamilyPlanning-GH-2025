@@ -5,13 +5,32 @@ import edu.usm.healthsystem.auth.AuthenticationService;
 import edu.usm.healthsystem.client.ClientController;
 import edu.usm.healthsystem.client.ClientService;
 
+/**
+ * Main entry point for the Ghana Health System application.
+ * This system manages patient records, employee access, and inventory for healthcare facilities.
+ */
 public class GhanaHealthSystem {
 
+    /**
+     * Main method that initializes the application controllers and services.
+     * @param args Command line arguments (not currently used)
+     */
     public static void main(String[] args) {
-        AuthenticationController authenticationController = new AuthenticationController(new AuthenticationService());
-        ClientController clientController = new ClientController(new ClientService());
+        // Initialize authentication components
+        AuthenticationController authenticationController =
+                new AuthenticationController(new AuthenticationService());
+
+        // Initialize client management components
+        ClientController clientController =
+                new ClientController(new ClientService());
     }
 
-    public void generateMonthlyReports() {}
+    /**
+     * Generates monthly reports for the health system.
+     * (Implementation pending)
+     */
+    public void generateMonthlyReports() {
+        // TODO: Implement monthly report generation
+    }
 
 }
