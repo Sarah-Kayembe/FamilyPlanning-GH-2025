@@ -36,12 +36,23 @@ public class InventoryService {
     	}
     	else return true;
     }
+    
+    /**
+     * Returns a "snapshot" of the current state of the InventoryService, which
+     * copies all Items in the Inventory and their counts to a new List object.
+     * @return a List containing the InvertoryService's state when this method
+     * was invoked
+     */
+    public List<Item> getInventorySnapshot() {
+    	ArrayList<Item> snapshot = new ArrayList<>();
+    	snapshot.addAll(itemList);
+    	return snapshot;
+    }
 
     /**
-     * Displays current inventory status.
+     * Displays current inventory state.
      */
     public void viewInventory() {
-        // TODO: Implement inventory viewing
     	for (Item item : itemList) {
     		System.out.printf("%s: %d\n", item.getName(), item.getAmount());
     	}
@@ -59,11 +70,11 @@ public class InventoryService {
      */
     private boolean addAmount(Item item, int amount) {
     	if (!(itemList.contains(item))) {
-    		System.out.printf("ERROR: item not found in inventory (%s)\n", item.getName());
+    		System.err.printf("ERROR: item not found in inventory (%s)\n", item.getName());
     		return false;
     	}
     	if (amount <= 0) {
-    		System.out.printf("ERROR: non-positive amount (%d)\n", amount);
+    		System.err.printf("ERROR: non-positive amount (%d)\n", amount);
     		return false;
     	}
     	item.setAmount(item.getAmount() + amount);
@@ -83,16 +94,16 @@ public class InventoryService {
      */
     private boolean subtractAmount(Item item, int amount) {
     	if (!(itemList.contains(item))) {
-    		System.out.printf("ERROR: item (%s) not found in inventory\n", item.getName());
+    		System.err.printf("ERROR: item (%s) not found in inventory\n", item.getName());
     		return false;
     	}
     	if (amount <= 0) {
-    		System.out.printf("ERROR: non-positive amount (%d)\n", amount);
+    		System.err.printf("ERROR: non-positive amount (%d)\n", amount);
     		return false;
     	}
     	if (amount > item.getAmount())
     	{
-    		System.out.printf("ERROR: amount (%d) greater than current stock of item (%s)\n", amount, item.getName());
+    		System.err.printf("ERROR: amount (%d) greater than current stock of item (%s)\n", amount, item.getName());
     		return false;
     	}
     	item.setAmount(item.getAmount() - amount);
@@ -106,7 +117,7 @@ public class InventoryService {
      * @return true if operation was successful, false otherwise
      */
     public boolean enterExpiredItem(Item item, int amount) {
-        // TODO: Implement expired item recording
+        // TODO: Implement expired item logging
         return subtractAmount(item, amount);
     }
 
@@ -117,7 +128,7 @@ public class InventoryService {
      * @return true if operation was successful, false otherwise
      */
     public boolean enterTransferredItems(Item item, int amount) {
-        // TODO: Implement transferred items recording
+        // TODO: Implement transferred items logging
     	return subtractAmount(item, amount);
     }
 
