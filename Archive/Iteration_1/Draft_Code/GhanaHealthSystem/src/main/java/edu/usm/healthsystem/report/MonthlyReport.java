@@ -11,30 +11,33 @@ public class MonthlyReport implements Report {
     public static final int COLUMNS = 16;
     public List<String[]> reportData;
 
+    /**
+     * Generates the CSV using a Client
+     */
     @Override
     public void generate(Client client) {
     	// Title the report
         String date = LocalDate.now().format(DateTimeFormatter.ofPattern("MM_yyyy"));
         String filepath = "monthly_report_" + date + ".csv";
 
-        reportData = generateReportData();
+        reportData = generateReportData(client);
 
         //generate the report
         generateCSV(filepath, reportData);
     }
     
-    public List<String[]> generateReportData() {
+    public List<String[]> generateReportData(Client client) {
     	 // Add header
-        List<String[]> report = ReportHeaderGenerator.generateHeader(getClinic(), getDistrict(), getRegion());
+        List<String[]> report = HeaderGenerator.addHeader(getClinic(), getDistrict(), getRegion(), client.getName());
         
         // Add item information
-        String[] r3 = StockDataGenerator.addStockData(report);
+        StockDataGenerator.addInfo(report);
         
         // Add funds and cedis information
-        FundsCEDISGenerator.addFundsCEDIS(report, r3);
+        FundsCEDISGenerator.addInfo(report);
         
         // Add patient information
-        AcceptorsGenerator.addAcceptors(report);
+        AcceptorsGenerator.addInfo(report);
         
         return report;
     }

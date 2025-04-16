@@ -6,14 +6,15 @@ public class FundsCEDISGenerator {
 	static double[] rowNineVals = {0,0,150,150,(3/100),300,1000,150,150,5000,25,1000,1,1,1,1000};
 	
     /**
-     * @param report
-     * @param r3
+     * @param report - The report to add the Funds and CEDIS information to
+     * 
+     * Generates all of the rows using the information from row 3 in the report
      */
-    public static void addFundsCEDIS(List<String[]> report, String[] r3) {
+    public static void addInfo(List<String[]> report) {
     	// Funds Collected
     	String[] fundsCollected = {"Funds Collected", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""};
         String[] r9 = rowNine();
-        String[] r10 = rowTen(r3, r9);
+        String[] r10 = rowTen(report.get(8)); // 8 is the row number for 3. Issued
         String[] r11a = rowElevenA(r10);
         String[] r11b = rowElevenB(r10);
         String[] r11c = rowElevenC(r10);
@@ -38,11 +39,37 @@ public class FundsCEDISGenerator {
         report.add(r12b);
         report.add(r12c);
     }
-
-
+    
+    /**
+     * @param report - The report to regenerate information for
+     * 
+     * Regenerates all of the rows using the new information in the report
+     */
+    public static void regenInfo(List<String[]> report) {
+    	// Funds Collected
+        String[] r10 = rowTen(report.get(8)); // 8 is the row number for 3. Issued
+        String[] r11a = rowElevenA(r10);
+        String[] r11b = rowElevenB(r10);
+        String[] r11c = rowElevenC(r10);
+        
+        // CEDIS Submitted
+    	String[] r12a = rowTwelveA(r10);
+    	String[] r12b = rowTwelveB(r10);
+    	String[] r12c = rowTwelveC(r10);
+        
+    	// 17 - 9. Unit Price
+        report.set(18, r10);
+        report.set(19, r11a);
+        report.set(20, r11b);
+        report.set(21, r11c);
+        // 22 - CEDIS SUBMITTED
+        report.set(23, r12a);
+        report.set(24, r12b);
+        report.set(25, r12c);
+    }
 
 	/**
-     * @return
+     * @return - The Unit price row, row 9, in array format
      */
     private static String[] rowNine() {
         return new String[] {"9. Unit Price (CEDIS)", "TOTAL", "150/cycle", "150/cycle", "3peices/100", "300/peice",
@@ -51,11 +78,10 @@ public class FundsCEDISGenerator {
 
 
     /**
-     * @param r3
-     * @param r9
-     * @return
+     * @param r3 - Row 3, the amount issued for each item
+     * @return - Row 10 of the report in array form
      */
-    private static String[] rowTen(String[] r3, String[]r9) {
+    private static String[] rowTen(String[] r3) {
     	String[] r10 = new String[16];
     	
     	r10[0] = "10. CEDIS Collected [line 3 x line 9]";
@@ -78,8 +104,8 @@ public class FundsCEDISGenerator {
     }
 
     /**
-     * @param r10
-     * @return
+     * @param r10 - Row 10, the CEDIS collected
+     * @return - Row 11a of the report in array form
      */
     private static String[] rowElevenA(String[] r10) {
     	String[] r11a = new String[16];
@@ -106,8 +132,8 @@ public class FundsCEDISGenerator {
     }
     
     /**
-     * @param r10
-     * @return
+     * @param r10 - Row 10 of the report, CEDIS collected
+     * @return - Row 11b of the report in array format
      */
     private static String[] rowElevenB(String[] r10) {
     	String[] r11b = new String[16];
@@ -134,8 +160,8 @@ public class FundsCEDISGenerator {
     }
     
     /**
-     * @param r10
-     * @return
+     * @param r10 - Row 10 of the report, CEDIS collected
+     * @return - Row 11c of the report in array format
      */
     private static String[] rowElevenC(String[] r10) {
     	String[] r11c = new String[16];
@@ -162,8 +188,8 @@ public class FundsCEDISGenerator {
     }
     
 	/**
-	 * @param r10
-	 * @return
+	 * @param r10 - Row 10 of the report, CEDIS collected
+	 * @return - Row 12a of the report in array format
 	 */
 	private static String[] rowTwelveA(String[] r10) {
     	String[] r12a = new String[16];
@@ -190,8 +216,8 @@ public class FundsCEDISGenerator {
 	}
 	
 	/**
-	 * @param r10
-	 * @return
+	 * @param r10 - Row 10 of the report, CEDIS collected
+	 * @return - Row 12b of the report in array format
 	 */
 	private static String[] rowTwelveB(String[] r10) {
     	String[] r12b = new String[16];
@@ -216,6 +242,10 @@ public class FundsCEDISGenerator {
     	return r12b;
 	}
     
+    /**
+	 * @param r10 - Row 10 of the report, CEDIS collected
+	 * @return - Row 12c of the report in array format
+     */
     private static String[] rowTwelveC(String[] r10) {
     	String[] r12c = new String[16];
     	

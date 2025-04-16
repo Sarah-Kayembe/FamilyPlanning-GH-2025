@@ -4,16 +4,20 @@ import java.util.List;
 
 public class StockDataGenerator {
 
-    public static String[] addStockData(List<String[]> report) {
+    /**
+     * @param report
+     */
+    public static void addInfo(List<String[]> report) {
         String[] r1 = rowOne();
         String[] r2 = rowTwo();
         String[] r3 = rowThree();
         String[] r4a = rowFourA();
         String[] r4b = rowFourB();
         String[] r5 = rowFive();
-        String[] r6 = rowSixA(r1, r2, r3, r4a, r5);
+        String[] r6a = rowSixA(r1, r2, r3, r4a, r5);
+        String[] r6b = rowSixB();
         String[] r7 = rowSeven();
-        String[] r8 = rowEight(r7, r6);
+        String[] r8 = rowEight(r7, r6a);
 
         report.add(r1);
         report.add(r2);
@@ -21,19 +25,23 @@ public class StockDataGenerator {
         report.add(r4a);
         report.add(r4b);
         report.add(r5);
-        report.add(r6);
+        report.add(r6a);
+        report.add(r6b);
         report.add(r7);
         report.add(r8);
-
-        return r3;
     }
     
-    public static void regenStockData(List<String[]> report) {
+    /**
+     * @param report - The report to regenerate the information for
+     * 
+     * Regenerates the rows that depend on other values
+     */
+    public static void regenInfo(List<String[]> report) {
     	String[] r6 = rowSixA(report.get(6), report.get(7), report.get(8), report.get(9), report.get(11) );
-    	String[] r8 = rowEight(report.get(13), r6);
+    	String[] r8 = rowEight(report.get(14), r6);
     	
     	report.set(12, r6);
-    	report.set(14, r8);
+    	report.set(15, r8);
     }
 
     /**
@@ -148,6 +156,19 @@ public class StockDataGenerator {
     	
     	return r6;
 	}
+    
+    private static String[] rowSixB() {
+    	
+    	String[] r6 = new String[16];
+    	r6[0] = "6b. Physical Stock (Manually Enterred)";
+    	r6[1] = "";
+    	
+    	for(int i = 2; i < MonthlyReport.COLUMNS; i++) {
+    		// add in manually entered info
+    	}
+    	
+    	return r6;
+	}
 
     
     
@@ -180,7 +201,7 @@ public class StockDataGenerator {
     	for(int i = 2; i < MonthlyReport.COLUMNS; i++) {
 	    	int line7 = MonthlyReport.parseInt(r7[i]);
 	    	int line6 = MonthlyReport.parseInt(r6[i]);
-	    	int fi = line7 - line6;
+	    	int fi = Math.max(0, line7 - line6); // can't require a negative quantity
 
 	    	r8[i] = "" + fi;
     	}
