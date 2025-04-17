@@ -16,9 +16,11 @@ public class PatientReportTest {
     public void testGenerateCSV() throws IOException {
         // Setup a mock Patient object
         Patient patient = new Patient();
-        patient.setName("John");
+        patient.setName("John");    
         patient.setLastName("Doe");
         patient.setAge(30);
+        patient.setAddress("172 Mullberry lane");
+        patient.setSex("Non Binary");
         // Set any other necessary patient data here...
 
         // Create an instance of the PatientReport class
@@ -28,11 +30,15 @@ public class PatientReportTest {
         patientReport.generate(patient);
 
         // Now, check the generated CSV file (for example, "patient_report_MM_yyyy.csv")
-        String date = "03_2025";  // Adjust this depending on the current date
-        String filePath = "patient_report_" + date + ".csv";
-        
-        // Read the file and print its contents (or assert against expected contents)
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+        String date = "04_2025";  // Adjust this depending on the current date
+        String filePath = "paitent_report_" + date + ".csv";
+
+        // Print the absolute path for debugging
+        java.io.File file = new java.io.File(filePath);
+        System.out.println("Looking for file at: " + file.getAbsolutePath());
+
+        // Read the file and print its contents
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line;
             while ((line = br.readLine()) != null) {
                 System.out.println(line);  // Print the contents of the CSV
@@ -40,8 +46,7 @@ public class PatientReportTest {
         }
 
         // Optionally, you can also assert that certain contents are present in the CSV
-        // Example: Ensure that the patient's name appears in the file
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line;
             boolean nameFound = false;
             while ((line = br.readLine()) != null) {

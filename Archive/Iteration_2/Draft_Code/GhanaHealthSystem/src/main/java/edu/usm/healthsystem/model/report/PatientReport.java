@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.List;
+import java.io.File;
 
 public class PatientReport implements Report {
     public static final int COLUMNS = 16;
@@ -21,7 +22,10 @@ public class PatientReport implements Report {
     public void generate(Client client) {
     	// Title the report
         String date = LocalDate.now().format(DateTimeFormatter.ofPattern("MM_yyyy"));
-        String filepath = "paitent_report_" + date + ".csv";
+        //String filepath = "paitent_report_" + date + ".csv";
+        File file = new File("paitent_report_" + date + ".csv");
+        String filepath = file.getAbsolutePath();
+        System.out.println(filepath);
 
         reportData = generateReportData(client);
 
@@ -82,7 +86,7 @@ public class PatientReport implements Report {
      * @param s - String to parse
      * @return - 0 if its null or empty and the integer otherwise. To prevent Integer.parseInt() throwing errors.
      */
-    public static int parseInt(String s) {
-    	return (s == "" || s == null) ? 0 : (int) Double.parseDouble(s);
-    }
+    // public static int parseInt(String s) {
+    // 	return (s == "" || s == null) ? 0 : (int) Double.parseDouble(s);
+    // }
 }
