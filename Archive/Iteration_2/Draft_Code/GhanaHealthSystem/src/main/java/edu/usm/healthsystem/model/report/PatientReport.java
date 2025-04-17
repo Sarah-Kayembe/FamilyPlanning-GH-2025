@@ -1,7 +1,6 @@
 package edu.usm.healthsystem.model.report;
 import edu.usm.healthsystem.model.client.Client;
 import edu.usm.healthsystem.model.client.Patient;
-import edu.usm.healthsystem.model.familyplanning.Appointment;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -15,62 +14,91 @@ public class PatientReport implements Report {
     public static final int COLUMNS = 16;
     public List<String[]> reportData;
 
-    /**
-     * Generates the CSV using a Client
-     */
     @Override
     public void generate(Client client) {
-    	// Title the report
         String date = LocalDate.now().format(DateTimeFormatter.ofPattern("MM_yyyy"));
-        //String filepath = "paitent_report_" + date + ".csv";
         File file = new File("paitent_report_" + date + ".csv");
         String filepath = file.getAbsolutePath();
         System.out.println(filepath);
 
         reportData = generateReportData(client);
-
-        //generate the report
         generateCSV(filepath, reportData);
     }
-    
-    public List<String[]> generateReportData(Client client) {
-    	 // Add header
+
+    /**
+     * New method: generates report for multiple patients
+     */
+    public void generate(List<Patient> patients) {
+        String date = LocalDate.now().format(DateTimeFormatter.ofPattern("MM_yyyy"));
+        File file = new File("paitent_report_" + date + ".csv");
+        String filepath = file.getAbsolutePath();
+        System.out.println(filepath);
+
+        // Start report with header
         List<String[]> report = PatientReportHeaderGenerator.addHeader(getYear(), getFacility(), getSubDistrict(), getSubDistrict());
-        
-        // Add appointment information
-        //Appointment.addInfo(report);
-        
-        // Add Paitent information
+
+        // Add each patient's data
+        for (Patient patient : patients) {
+            PatientGenerator.addInfo(report, patient);
+        }
+
+        generateCSV(filepath, report);
+        setReportData(report);
+    }
+
+    public List<String[]> generateReportData(Client client) {
+        List<String[]> report = PatientReportHeaderGenerator.addHeader(getYear(), getFacility(), getSubDistrict(), getSubDistrict());
+
         if (client instanceof Patient) {
             PatientGenerator.addInfo(report, (Patient) client);
         }
-        
+
         return report;
     }
-    
+
     public List<String[]> getReportData() {
-    	return reportData;
-    }
-    
-    public void setReportData(List<String[]> report) {
-    	reportData = report;
+        return reportData;
     }
 
+    public void setReportData(List<String[]> report) {
+        this.reportData = report;
+    }
 
     public void generateCSV(String filePath, List<String[]> data) {
-        try (FileWriter writer = new FileWriter(filePath)) {
+        File file = new File(filePath);
+        boolean fileExists = file.exists();
+
+        try (FileWriter writer = new FileWriter(filePath, true)) {
+            if (!fileExists) {
+                System.out.println("Creating new file: " + filePath);
+            } else {
+                System.out.println("Appending to existing file: " + filePath);
+                // Optional: skip header if file exists
+                if (!data.isEmpty() && data.get(0)[0].contains("FAMILY PLANNING CLIENT REGISTER")) {
+                    int firstDataRow = 0;
+                    for (int i = 0; i < data.size(); i++) {
+                        if (!data.get(i)[0].contains("FAMILY") && !data.get(i)[0].startsWith("-")) {
+                            firstDataRow = i;
+                            break;
+                        }
+                    }
+                    data = data.subList(firstDataRow, data.size());
+                }
+            }
+
             for (String[] row : data) {
                 writer.append(String.join(",", row)).append("\n");
             }
-            System.out.println("CSV file generated successfully at: " + filePath);
+
+            System.out.println("CSV write complete at: " + filePath);
         } catch (IOException e) {
             System.err.println("Error generating CSV file: " + e.getMessage());
         }
     }
-    
-    public String getYear() { 
+
+    public String getYear() {
         int year = Calendar.getInstance().get(Calendar.YEAR);
-        return Integer.toString(year); 
+        return Integer.toString(year);
     }
 
     public String getDistrict() { return "Ghana NHIS"; }
@@ -79,14 +107,9 @@ public class PatientReport implements Report {
 
     public String getFacility() { return "Family Planning"; }
 
-    public String getSubDistrict() { return "Accra West"; } // TODO: need to let the user input
+    public String getSubDistrict() { return "Accra West"; }
 
-    
-    /**
-     * @param s - String to parse
-     * @return - 0 if its null or empty and the integer otherwise. To prevent Integer.parseInt() throwing errors.
-     */
-    // public static int parseInt(String s) {
-    // 	return (s == "" || s == null) ? 0 : (int) Double.parseDouble(s);
-    // }
+    public static int parseInt(String s) {
+        return (s == null || s.isEmpty()) ? 0 : (int) Double.parseDouble(s);
+    }
 }

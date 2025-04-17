@@ -32,10 +32,7 @@ public class PatientReportHeaderGenerator {
                 "Method of Choice", "1st ever use of method (Y/N)", "Age", "Parity",
                 "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
         });
-    
-        // Add a separator line if you want (or skip this in real CSVs)
-        header.add(new String[]{"-".repeat(180)});
-    
+        
         return header;
     }    
     

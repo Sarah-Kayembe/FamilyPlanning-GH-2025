@@ -23,17 +23,6 @@ public class PatientGenerator {
         row[9] = patient.isFirstUse() ? "Y" : "N";
         row[10] = Integer.toString(patient.getAge());
         row[11] = Integer.toString(patient.getParity());
-
-        // Monthly usage (Jan to Dec)
-        // for (int i = 0; i < 12; i++) {
-        //     Month month = Month.of(i + 1);
-        //     if (patient.getMonthlyUsage() != null && patient.getMonthlyUsage().get(month) != null) {
-        //         row[12 + i] = patient.getMonthlyUsage().get(month).getName(); // or .toString() if you prefer full object detail
-        //     } else {
-        //         row[12 + i] = ""; // Empty if no data
-        //     }
-        // }
-
         report.add(row);
     }
 }
