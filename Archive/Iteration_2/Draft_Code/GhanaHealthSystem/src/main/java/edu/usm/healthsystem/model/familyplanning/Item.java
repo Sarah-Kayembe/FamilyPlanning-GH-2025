@@ -1,4 +1,4 @@
-package edu.usm.healthsystem.client.inventory;
+package edu.usm.healthsystem.model.familyplanning;
 
 import lombok.*;
 
@@ -19,4 +19,5 @@ public class Item {
      * The quantity of the item in inventory
      */
     private int amount;
+    
 }
