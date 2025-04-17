@@ -67,5 +67,4 @@ public class Patient implements Client {
         }
         monthlyUsage.put(month, new Item("REFERRED", 0));
     }
-
 }
