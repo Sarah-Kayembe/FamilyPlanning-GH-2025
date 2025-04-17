@@ -1,7 +1,7 @@
-package edu.usm.healthsystem.client.inventory;
+package edu.usm.healthsystem.service.inventory;
 
-import edu.usm.healthsystem.report.MonthlyReport;
-import edu.usm.healthsystem.report.Report;
+import edu.usm.healthsystem.model.familyplanning.Item;
+import edu.usm.healthsystem.model.report.MonthlyReport;
 
 import java.util.ArrayList;
 import java.util.List;
