@@ -60,7 +60,7 @@ Additionally, Michael began exploring the design of a comprehensive `Patient` cl
 
 ---
 
-## Pair 3
+## Pair 1
 
 ### Ethan
 Ethan focused on building the monthly report generation system. He created four dedicated classes:
