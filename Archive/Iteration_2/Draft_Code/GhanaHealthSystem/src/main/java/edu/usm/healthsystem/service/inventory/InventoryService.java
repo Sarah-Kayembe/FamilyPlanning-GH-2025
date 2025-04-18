@@ -1,4 +1,4 @@
-package edu.usm.healthsystem.client.inventory;
+package edu.usm.healthsystem.model.service.inventory;
 
 import edu.usm.healthsystem.report.MonthlyReport;
 

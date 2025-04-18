@@ -1,0 +1,32 @@
+Family Planning Monthly Report,,,,,,,,,,,,,,,
+Clinic: ,Family Planning Clinic,,,,,,,,,,,,,,
+District: ,Ghana NHIS,,,,,,,,,,,,,,
+Region: ,Ghana,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,
+STOCK,,LO-FEM,Overette,Male Condom,Female Condom,Copper T,Micro G,Micr - N,Postinor 2,Sampoo,Depo,Vasectomy,LAM,Natural,Norigynon
+1. Beginning,,100,60,,,,,,,,,,,,
+2. Received,,50,20,,,,,,,,,,,,
+3. Issued,,49,12,,,,,,,,,,,,
+4a. Transferred Amount,,20,5,,,,,,,,,,,,
+4b. To Where? (MOH/GMRA/PPAG/CC/Private),,Private,Private,,,,,,,,,,,,
+5. Loss/Expired,,5,2,,,,,,,,,,,,
+6a. Ending [1 + 2 - 3 - 4a - 5],,76,61,0,0,0,0,0,0,0,0,0,0,0,0
+6b. Physical Stock (Manually Enterred),,null,null,null,null,null,null,null,null,null,null,null,null,null,null
+7. Number of months required,,100,60,,,,,,,,,,,,
+8. Quantity Required [line 7 - line 6],,24,0,0,0,0,0,0,0,0,0,0,0,0,0
+Funds Collected,,,,,,,,,,,,,,,
+9. Unit Price (CEDIS),TOTAL,150/cycle,150/cycle,3peices/100,300/peice,1000/unit,150/cycle,150/cycle,5000/pack,25/tab,1000/dose,,,,1000/dose
+10. CEDIS Collected [line 3 x line 9],9150.0,7350.0,1800.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+11a. CEDIS Retined - SDHS 50% x line 10,4575.0,3675.0,900.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+11b. CEDIS Retained - DHMT 10% x line 10,915.0,735.0,180.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+11c. CEDIS Retained - RHMT 10% x line 10,915.0,735.0,180.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+CEDIS Submitted,,,,,,,,,,,,,,,
+12a. SDHS - DHMT 50% x line 10,4575.0,3675.0,900.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+12b. DHMT - REG. 40% x line 10,3660.0,2940.0,720.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+12c. RHMT - CENT. ACC. 30% x line 10,2745.0,2205.0,540.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+Acceptors By Method,,,,,,,,,,,,,,,
+13a. New Acceptors,4,3,1,,,,,,,,,,,,
+13b. Continuing Acceptors,23,15,8,,,,,,,,,,,,
+13c. Total,27,18,9,0,0,0,0,0,0,0,0,0,0,0,0
+14. Total Visits,14,10,4,,,,,,,,,,,,
+15. Couple-Years of Protection,5,2,3,,,,,,,,,,,,
