@@ -1,14 +1,16 @@
+package edu.usm.healthsystem.storage;
+
 import org.junit.jupiter.api.*;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ClientDAOTest {
 
-    private static ClientDAO dao;
+    private static ClientDao dao;
 
     @BeforeAll
     public static void setup() {
-        dao = new ClientDAO();
+        dao = new ClientDao();
     }
 
     @Test

@@ -1,3 +1,5 @@
+package edu.usm.healthsystem.storage;
+
 public class Client {
     private int id;
     private String firstName;

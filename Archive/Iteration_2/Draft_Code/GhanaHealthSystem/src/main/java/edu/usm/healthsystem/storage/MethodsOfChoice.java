@@ -1,3 +1,5 @@
+package edu.usm.healthsystem.storage;
+
 public class MethodsOfChoice {
     private int id;
     private String methodName;

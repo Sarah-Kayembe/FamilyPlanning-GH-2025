@@ -1,3 +1,5 @@
+package edu.usm.healthsystem.storage;
+
 public class LocationDetails {
     private int id;
     private String address;

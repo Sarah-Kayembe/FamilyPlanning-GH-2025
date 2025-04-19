@@ -1,14 +1,18 @@
+package edu.usm.healthsystem.storage;
+
 import org.junit.jupiter.api.*;
+
 import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class MethodsOfChoiceDAOTest {
 
-    private static MethodsOfChoiceDAO dao;
+    private static MethodsOfChoiceDao dao;
 
     @BeforeAll
     public static void setup() {
-        dao = new MethodsOfChoiceDAO();
+        dao = new MethodsOfChoiceDao();
     }
 
     @Test

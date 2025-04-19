@@ -1,3 +1,5 @@
+package edu.usm.healthsystem.storage;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;

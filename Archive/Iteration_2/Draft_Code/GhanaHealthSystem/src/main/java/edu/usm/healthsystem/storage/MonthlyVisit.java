@@ -1,3 +1,5 @@
+package edu.usm.healthsystem.storage;
+
 public class MonthlyVisit {
     private int id;
     private int clientId;
