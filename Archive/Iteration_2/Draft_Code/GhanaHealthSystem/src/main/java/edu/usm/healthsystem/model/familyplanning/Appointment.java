@@ -20,7 +20,7 @@ import java.util.Optional;
 public class Appointment {
 
     /** Reference to the patient associated with the appointment. */
-    private Patient patient;
+    private FamilyPlanningPatient patient;
 
     /** ID of the employee managing the appointment. */
     private String employeeId;
@@ -55,7 +55,7 @@ public class Appointment {
      * @param appointmentDate The date and time of the appointment.
      * @param contraceptiveMethod The contraceptive method chosen for the appointment.
      */
-    public Appointment(Patient patient, String employeeId, LocalDateTime appointmentDate,
+    public Appointment(FamilyPlanningPatient patient, String employeeId, LocalDateTime appointmentDate,
                        ContraceptiveMethod contraceptiveMethod) {
         this(patient, employeeId, appointmentDate, contraceptiveMethod, Optional.empty(),
                 Optional.empty(), Optional.empty(), LocalDateTime.now(), true);

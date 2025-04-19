@@ -1,5 +1,6 @@
 package edu.usm.healthsystem.service.appointment;
 
+import edu.usm.healthsystem.model.familyplanning.FamilyPlanningPatient;
 import edu.usm.healthsystem.model.familyplanning.Item;
 import edu.usm.healthsystem.model.client.Employee;
 import edu.usm.healthsystem.model.client.EmployeeType;
@@ -43,7 +44,7 @@ public class AppointmentService {
      * @throws SecurityException if the employee is not authorized.
      */
     public Appointment createAppointment(
-            Employee employee, Patient patient, LocalDateTime appointmentDate,
+            Employee employee, FamilyPlanningPatient patient, LocalDateTime appointmentDate,
             ContraceptiveMethod method, Optional<String> notes) {
         if (!canManageAppointments(employee)) {
             throw new SecurityException("Employee not authorized to manage appointments");

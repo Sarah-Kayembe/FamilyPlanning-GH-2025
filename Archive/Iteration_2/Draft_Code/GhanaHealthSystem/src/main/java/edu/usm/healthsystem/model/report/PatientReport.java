@@ -1,16 +1,18 @@
 package edu.usm.healthsystem.model.report;
+
 import edu.usm.healthsystem.model.client.Client;
 import edu.usm.healthsystem.model.client.Patient;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.List;
-import java.io.File;
 
 public class PatientReport implements Report {
+
     public static final int COLUMNS = 16;
     public List<String[]> reportData;
 
@@ -101,13 +103,21 @@ public class PatientReport implements Report {
         return Integer.toString(year);
     }
 
-    public String getDistrict() { return "Ghana NHIS"; }
+    public String getDistrict() {
+        return "Ghana NHIS";
+    }
 
-    public String getClinic() { return "Family Planning Clinic"; }
+    public String getClinic() {
+        return "Family Planning Clinic";
+    }
 
-    public String getFacility() { return "Family Planning"; }
+    public String getFacility() {
+        return "Family Planning";
+    }
 
-    public String getSubDistrict() { return "Accra West"; }
+    public String getSubDistrict() {
+        return "Accra West";
+    }
 
     public static int parseInt(String s) {
         return (s == null || s.isEmpty()) ? 0 : (int) Double.parseDouble(s);

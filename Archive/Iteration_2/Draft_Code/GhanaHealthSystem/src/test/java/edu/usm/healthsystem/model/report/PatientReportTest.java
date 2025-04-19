@@ -1,5 +1,6 @@
 package edu.usm.healthsystem.model.report;
 import edu.usm.healthsystem.model.client.Patient;
+import edu.usm.healthsystem.model.familyplanning.FamilyPlanningPatient;
 import edu.usm.healthsystem.model.report.PatientReport;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -17,6 +18,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class PatientReportTest {
+
     Path tempDir = Path.of("test-output");
 
     // Handel one Patent
@@ -26,7 +28,7 @@ public class PatientReportTest {
        Files.createDirectories(tempDir);
 
        // Setup a mock Patient object
-       Patient patient = new Patient();
+       Patient patient = new FamilyPlanningPatient();
        patient.setName("John");
        patient.setLastName("Doe");
        patient.setAge(30);
@@ -74,15 +76,15 @@ public class PatientReportTest {
     public void testGenerateCSVWithMultiplePatients() throws IOException {
         Files.createDirectories(tempDir);
 
-        Patient patient1 = new Patient();
+        Patient patient1 = new FamilyPlanningPatient();
         patient1.setName("John");
         patient1.setLastName("Doe");
 
-        Patient patient2 = new Patient();
+        Patient patient2 = new FamilyPlanningPatient();
         patient2.setName("Jane");
         patient2.setLastName("Smith");
 
-        Patient patient3 = new Patient();
+        Patient patient3 = new FamilyPlanningPatient();
         patient3.setName("Alice");
         patient3.setLastName("Johnson");
 

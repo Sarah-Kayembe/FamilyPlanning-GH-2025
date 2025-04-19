@@ -30,8 +30,13 @@ public class Employee implements Client {
     public String getLastName() { return lastName; }
 
     @Override
-    public String getPassword() { return passwordHash; }
+    public String getPassword() {
+        return passwordHash;
+    }
 
-
+    @Override
+    public void setPassword(String passwordHash) {
+        this.passwordHash = passwordHash;
+    }
 
 }

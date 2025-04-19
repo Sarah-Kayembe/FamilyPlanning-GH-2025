@@ -13,12 +13,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class AppointmentTest {
 
-    private Patient patient;
+    private FamilyPlanningPatient patient;
     private Appointment appointment;
 
     @BeforeEach
     public void setUp() {
-        patient = new Patient();
+        patient = new FamilyPlanningPatient();
         patient.setName("Jane");
         patient.setLastName("Doe");
         appointment = new Appointment(
@@ -31,7 +31,7 @@ public class AppointmentTest {
 
     @Test
     public void testAppointmentStoresEmployeeIdCorrectly() {
-        Patient patient = new Patient();
+        FamilyPlanningPatient patient = new FamilyPlanningPatient();
         patient.setName("Patient");
         patient.setLastName("LastName");
 
@@ -60,9 +60,9 @@ public class AppointmentTest {
 
     @Test
     public void testGenerateAlertReturnsReminderWhenNextDoseIsSoon() {
-        Patient patient = new Patient();
-        patient.setName("Patient");
-        patient.setLastName("LastName");
+        FamilyPlanningPatient patient = new FamilyPlanningPatient();
+        patient.setName("Jane");
+        patient.setLastName("Doe");
 
         Appointment appointment = new Appointment(
                 patient,

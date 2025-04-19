@@ -1,28 +1,64 @@
 package edu.usm.healthsystem.model.client;
 
 /**
- * Interface representing a client in the health system (can be either a patient or employee).
+ * Represents a general client in the system with basic identity and authentication fields.
  */
 public interface Client {
 
     /**
-     * @return The username for authentication
+     * Gets the username for authentication.
+     *
+     * @return the client's username
      */
     String getUsername();
 
     /**
-     * @return The first name of the client
+     * Sets the username for authentication.
+     *
+     * @param username the client's username
+     */
+    void setUsername(String username);
+
+    /**
+     * Gets the client's first name.
+     *
+     * @return the first name
      */
     String getName();
 
     /**
-     * @return The last name of the client
+     * Sets the client's first name.
+     *
+     * @param name the first name
+     */
+    void setName(String name);
+
+    /**
+     * Gets the client's last name.
+     *
+     * @return the last name
      */
     String getLastName();
 
     /**
-     * @return The hashed password of the client
+     * Sets the client's last name.
+     *
+     * @param lastName the last name
+     */
+    void setLastName(String lastName);
+
+    /**
+     * Gets the client's hashed password.
+     *
+     * @return the hashed password
      */
     String getPassword();
+
+    /**
+     * Sets the client's hashed password.
+     *
+     * @param passwordHash the hashed password
+     */
+    void setPassword(String passwordHash);
 
 }

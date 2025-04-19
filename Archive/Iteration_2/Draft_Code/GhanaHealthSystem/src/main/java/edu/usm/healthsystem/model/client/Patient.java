@@ -1,71 +1,107 @@
 package edu.usm.healthsystem.model.client;
 
-import edu.usm.healthsystem.model.familyplanning.Item;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import java.time.Month;
-import java.util.HashMap;
-import java.util.Map;
-
 /**
- * Represents a patient in the health system.
- * Implements Client interface for authentication and identification.
+ * Represents a patient in the system, extending the basic client details
+ * with demographic and registration-related information.
  */
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class Patient implements Client {
+public interface Patient extends Client {
 
-    // Existing fields
-    private String username;
-    private String name;
-    private String lastName;
-    private String passwordHash;
-    private String medicalHistory;
+    /**
+     * Gets the date of registration.
+     *
+     * @return the registration date
+     */
+    String getDate();
 
-    // New fields for Family Planning Client Register
-    private String date; // Date of registration
-    private String nhisNumber; // NHIS Reg. No.
-    private String cardNumber; // Card No
-    private String maritalStatus; // Marital Status
-    private String sex; // Sex
-    private String address; // Address (Location/WP/Community/Hse No.)
-    private String methodOfChoice; // Method of Choice
-    private boolean firstUse; // 1st ever use of method (Y/N)
-    private int age; // Age
-    private int parity; // Parity
-    private Map<Month, Item> monthlyUsage; // Updated to store Item objects
+    /**
+     * Sets the date of registration.
+     *
+     * @param date the registration date
+     */
+    void setDate(String date);
 
-    // Existing overridden methods
-    @Override
-    public String getUsername() { return username; }
+    /**
+     * Gets the NHIS registration number.
+     *
+     * @return the NHIS number
+     */
+    String getNhisNumber();
 
-    @Override
-    public String getName() { return name; }
+    /**
+     * Sets the NHIS registration number.
+     *
+     * @param nhisNumber the NHIS number
+     */
+    void setNhisNumber(String nhisNumber);
 
-    @Override
-    public String getLastName() { return lastName; }
+    /**
+     * Gets the card number.
+     *
+     * @return the card number
+     */
+    String getCardNumber();
 
-    @Override
-    public String getPassword() {
-        return passwordHash;
-    }
+    /**
+     * Sets the card number.
+     *
+     * @param cardNumber the card number
+     */
+    void setCardNumber(String cardNumber);
 
-    // Helper method to set monthly usage
-    public void setMonthlyUsage(Month month, Item item) {
-        if (monthlyUsage == null) {
-            monthlyUsage = new HashMap<>();
-        }
-        monthlyUsage.put(month, item);
-    }
+    /**
+     * Gets the marital status of the patient.
+     *
+     * @return the marital status
+     */
+    String getMaritalStatus();
 
-    public void setReferred(Month month) {
-        if (monthlyUsage == null) {
-            monthlyUsage = new HashMap<>();
-        }
-        monthlyUsage.put(month, new Item("REFERRED", 0));
-    }
+    /**
+     * Sets the marital status of the patient.
+     *
+     * @param maritalStatus the marital status
+     */
+    void setMaritalStatus(String maritalStatus);
+
+    /**
+     * Gets the sex of the patient.
+     *
+     * @return the sex
+     */
+    String getSex();
+
+    /**
+     * Sets the sex of the patient.
+     *
+     * @param sex the sex
+     */
+    void setSex(String sex);
+
+    /**
+     * Gets the address of the patient.
+     *
+     * @return the address
+     */
+    String getAddress();
+
+    /**
+     * Sets the address of the patient.
+     *
+     * @param address the address
+     */
+    void setAddress(String address);
+
+    /**
+     * Gets the age of the patient.
+     *
+     * @return the age
+     */
+    int getAge();
+
+    /**
+     * Sets the age of the patient.
+     *
+     * @param age the age
+     */
+    void setAge(int age);
 
 }
