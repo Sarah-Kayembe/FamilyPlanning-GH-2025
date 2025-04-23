@@ -4,7 +4,7 @@ import edu.usm.healthsystem.controller.auth.AuthenticationController;
 import edu.usm.healthsystem.service.auth.AuthenticationService;
 import edu.usm.healthsystem.controller.patient.ClientController;
 import edu.usm.healthsystem.service.client.ClientService;
-import edu.usm.healthsystem.view.InventoryInterface;
+import edu.usm.healthsystem.view.FamilyPlanningUI;
 
 import javax.swing.*;
 
@@ -19,7 +19,7 @@ public class GhanaHealthSystem {
      * @param args Command line arguments (not currently used)
      */
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(InventoryInterface::new);
+        SwingUtilities.invokeLater(FamilyPlanningUI::new);
     }
 
     /**

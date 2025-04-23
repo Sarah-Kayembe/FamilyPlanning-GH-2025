@@ -4,6 +4,8 @@ import java.util.Map;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import edu.usm.healthsystem.model.report.MonthlyReport;
+
 public class MonthlyReportController {
 
     private JFrame parent;
@@ -32,13 +34,12 @@ public class MonthlyReportController {
             }
 
             Map<String, Integer> data = dialog.getData();
-
-            System.out.println(data.toString());
-            // MonthlyReport report = new MonthlyReport();
-            // report.generate(employeeName, data);
+            
+            
+            MonthlyReport report = new MonthlyReport();
+            report.generateReport(employeeName, data);
 
             JOptionPane.showMessageDialog(parent, "Report generated successfully!");
-
         }
         catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(parent, "Please enter valid numbers for all fields.", "Input Error", JOptionPane.ERROR_MESSAGE);

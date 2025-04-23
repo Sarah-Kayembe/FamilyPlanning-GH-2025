@@ -21,7 +21,7 @@ public class PatientPanel extends JPanel {
         backgroundLabel.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(20, 20, 20, 20);
-        gbc.gridy = 0;
+        gbc.gridy = 1;
         backgroundLabel.add(backButton, gbc);
 
         add(backgroundLabel, BorderLayout.CENTER);

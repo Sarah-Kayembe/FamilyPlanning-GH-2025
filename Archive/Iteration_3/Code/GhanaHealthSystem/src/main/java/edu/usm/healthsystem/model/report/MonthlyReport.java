@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 
 public class MonthlyReport implements Report {
     public static final int COLUMNS = 16;
@@ -14,24 +15,23 @@ public class MonthlyReport implements Report {
     /**
      * Generates the CSV using a Client
      */
-    @Override
-    public void generate(Client client) {
+    public void generateReport(String employeeName, Map<String, Integer> row6b) {
     	// Title the report
         String date = LocalDate.now().format(DateTimeFormatter.ofPattern("MM_yyyy"));
-        String filepath = "monthly_report_" + date + ".csv";
+        String filepath = "test-output/monthly_report_" + date + ".csv";
 
-        reportData = generateReportData(client);
+        reportData = generateReportData(employeeName, row6b);
 
         //generate the report
         generateCSV(filepath, reportData);
     }
     
-    public List<String[]> generateReportData(Client client) {
+    public List<String[]> generateReportData(String employeeName, Map<String, Integer> row6b) {
     	 // Add header
-        List<String[]> report = HeaderGenerator.addHeader(getClinic(), getDistrict(), getRegion(), client.getName());
+        List<String[]> report = HeaderGenerator.addHeader(getClinic(), getDistrict(), getRegion(), employeeName);
         
         // Add item information
-        StockDataGenerator.addInfo(report);
+        StockDataGenerator.addInfo(report, row6b);
         
         // Add funds and cedis information
         FundsCEDISGenerator.addInfo(report);
@@ -75,4 +75,9 @@ public class MonthlyReport implements Report {
     public static int parseInt(String s) {
     	return (s == "" || s == null) ? 0 : (int) Double.parseDouble(s);
     }
+
+	@Override
+	public void generate(Client client) {
+		
+	}
 }

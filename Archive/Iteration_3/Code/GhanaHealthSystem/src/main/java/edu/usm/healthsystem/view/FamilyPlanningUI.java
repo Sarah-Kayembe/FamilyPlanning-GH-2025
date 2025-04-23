@@ -14,7 +14,7 @@ public class FamilyPlanningUI extends JFrame {
     private JPanel mainPanel;
 
     public FamilyPlanningUI() {
-        setTitle("Nurse Application");
+        setTitle("Family Planning Clinic Application");
         setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);

@@ -1,13 +1,14 @@
 package edu.usm.healthsystem.model.report;
 
 import java.util.List;
+import java.util.Map;
 
 public class StockDataGenerator {
 
     /**
      * @param report
      */
-    public static void addInfo(List<String[]> report) {
+    public static void addInfo(List<String[]> report, Map<String, Integer> row6b) {
         String[] r1 = rowOne();
         String[] r2 = rowTwo();
         String[] r3 = rowThree();
@@ -15,7 +16,7 @@ public class StockDataGenerator {
         String[] r4b = rowFourB();
         String[] r5 = rowFive();
         String[] r6a = rowSixA(r1, r2, r3, r4a, r5);
-        String[] r6b = rowSixB();
+        String[] r6b = rowSixB(row6b);
         String[] r7 = rowSeven();
         String[] r8 = rowEight(r7, r6a);
 
@@ -157,14 +158,18 @@ public class StockDataGenerator {
     	return r6;
 	}
     
-    private static String[] rowSixB() {
+    private static String[] rowSixB(Map<String, Integer> data) {
     	
     	String[] r6 = new String[16];
+    	String[] header = {"STOCK", "", "LO-FEM", "Overette", "Male Condom", "Female Condom", 
+                "Copper T", "Micro G", "Micr - N", "Postinor 2", "Sampoo", "Depo", "Vasectomy", "LAM", "Natural", "Norigynon"};
+    	
     	r6[0] = "6b. Physical Stock (Manually Enterred)";
     	r6[1] = "";
     	
     	for(int i = 2; i < MonthlyReport.COLUMNS; i++) {
-    		// add in manually entered info
+    		Integer num = data.get(header[i]);
+    		r6[i] = num.toString();
     	}
     	
     	return r6;

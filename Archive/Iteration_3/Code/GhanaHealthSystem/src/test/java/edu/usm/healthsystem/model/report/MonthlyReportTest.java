@@ -7,16 +7,35 @@ import static org.junit.jupiter.api.Assertions.fail;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
 class MonthlyReportTest {
+	
+	public static Map<String, Integer> row6b = Map.ofEntries(
+		    Map.entry("LO-FEM", 23),
+		    Map.entry("Overette", 14),
+		    Map.entry("Male Condom", 47),
+		    Map.entry("Female Condom", 9),
+		    Map.entry("Copper T", 31),
+		    Map.entry("Micro G", 5),
+		    Map.entry("Micr - N", 42),
+		    Map.entry("Postinor 2", 18),
+		    Map.entry("Sampoo", 37),
+		    Map.entry("Depo", 26),
+		    Map.entry("Vasectomy", 11),
+		    Map.entry("LAM", 50),
+		    Map.entry("Natural", 3),
+		    Map.entry("Norigynon", 29)
+		);
+
 
 	@Test
 	void testColumnOneTwo() {
 		MonthlyReport report = new MonthlyReport();
 		Client client = new Employee();
-		List<String[]> reportData = report.generateReportData(client);
+		List<String[]> reportData = report.generateReportData("Test Employee", row6b);
 		
 		// ADD TESTS HERE
 		
