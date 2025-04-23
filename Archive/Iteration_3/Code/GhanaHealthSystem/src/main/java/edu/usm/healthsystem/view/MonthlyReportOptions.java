@@ -6,7 +6,7 @@ import java.awt.event.ActionEvent;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ReportOptionsDialog extends JDialog {
+public class MonthlyReportOptions extends JDialog {
 
     private boolean confirmed = false;
     private final JTextField employeeField;
@@ -19,15 +19,15 @@ public class ReportOptionsDialog extends JDialog {
             "Natural", "Norigynon"
     };
 
-    public ReportOptionsDialog(Frame owner) {
+    public MonthlyReportOptions(Frame owner) {
         super(owner, "Generate Report Options", true); // true makes it modal
 
-        setSize(MainInterface.WINDOW_WIDTH, MainInterface.WINDOW_HEIGHT);
+        setSize(FamilyPlanningUI.WINDOW_WIDTH, FamilyPlanningUI.WINDOW_HEIGHT);
         setLocationRelativeTo(owner);
         setLayout(new BorderLayout());
 
         // === Background image ===
-        ImageIcon backgroundImage = new ImageIcon(MainInterface.BACKGROUND_PATH);
+        ImageIcon backgroundImage = new ImageIcon(FamilyPlanningUI.BACKGROUND_PATH);
         Image img = backgroundImage.getImage().getScaledInstance(getWidth(), getHeight(), Image.SCALE_SMOOTH);
         backgroundImage = new ImageIcon(img);
         JLabel background = new JLabel(backgroundImage);

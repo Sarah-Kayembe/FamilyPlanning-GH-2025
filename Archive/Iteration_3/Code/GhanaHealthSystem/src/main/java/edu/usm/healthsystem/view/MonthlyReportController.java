@@ -4,16 +4,16 @@ import java.util.Map;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-public class ReportController {
+public class MonthlyReportController {
 
     private JFrame parent;
 
-    public ReportController(JFrame parent) {
+    public MonthlyReportController(JFrame parent) {
         this.parent = parent;
     }
 
     public void handleGenerateReport() {
-        ReportOptionsDialog dialog = new ReportOptionsDialog(parent);
+        MonthlyReportOptions dialog = new MonthlyReportOptions(parent);
         dialog.setVisible(true);
 
         if (!dialog.isConfirmed()) return;
