@@ -1,30 +1,81 @@
 package edu.usm.healthsystem.view;
 
+import edu.usm.healthsystem.model.client.Patient;
+import edu.usm.healthsystem.model.familyplanning.FamilyPlanningPatient;
+
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class PatientPanel extends JPanel {
+
+    private JComboBox<FamilyPlanningPatient> patientComboBox;
+
     public PatientPanel(FamilyPlanningUI parent) {
         setLayout(new BorderLayout());
 
+        List<FamilyPlanningPatient> familyPlanningPatients = Arrays.asList(
+                createPatient("John", "Doe"),
+                createPatient("Jane", "Smith"),
+                createPatient("Alice", "Johnson")
+        );
+
         JLabel backgroundLabel = createBackgroundLabel();
-        backgroundLabel.setLayout(new BorderLayout());
+        backgroundLabel.setLayout(new GridBagLayout());
 
-        JLabel label = new JLabel("Patient Interface - Under Construction", SwingConstants.CENTER);
-        label.setFont(new Font("SansSerif", Font.BOLD, 24));
-        backgroundLabel.add(label, BorderLayout.CENTER);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(20, 20, 20, 20);
+        gbc.gridx = 0;
 
+        // Title
+        JLabel titleLabel = new JLabel("Select a Patient", SwingConstants.CENTER);
+        titleLabel.setFont(new Font("SansSerif", Font.BOLD, 24));
+        gbc.gridy = 0;
+        backgroundLabel.add(titleLabel, gbc);
+
+        // Patient ComboBox
+        patientComboBox = new JComboBox<>(familyPlanningPatients.toArray(new FamilyPlanningPatient[0]));
+        patientComboBox.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+        patientComboBox.setPreferredSize(new Dimension(400, 40));
+        patientComboBox.setRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index,
+                                                          boolean isSelected, boolean cellHasFocus) {
+                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                if (value instanceof FamilyPlanningPatient) {
+                    FamilyPlanningPatient patient = (FamilyPlanningPatient) value;
+                    setText(patient.getName() + " " + patient.getLastName());
+                }
+                return this;
+            }
+        });
+        gbc.gridy = 1;
+        backgroundLabel.add(patientComboBox, gbc);
+
+        // Create Appointment Button
+        ImageIcon editIcon = FamilyPlanningUI.createResizedIcon("src/main/resources/images/back_icon.png", 80, 80);
+        JButton editAppointmentButton = createButton("      Create Appointment", editIcon, new Color(62, 181, 62));
+        editAppointmentButton.addActionListener(e -> System.out.println("Create button clicked"));
+        gbc.gridy = 2;
+        backgroundLabel.add(editAppointmentButton, gbc);
+
+        // Back Button
         ImageIcon backIcon = FamilyPlanningUI.createResizedIcon("src/main/resources/images/back_icon.png", 80, 80);
         JButton backButton = createButton("    Back", backIcon, new Color(232, 60, 60));
         backButton.addActionListener(e -> parent.showView("Menu"));
-
-        backgroundLabel.setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(20, 20, 20, 20);
-        gbc.gridy = 1;
+        gbc.gridy = 3;
         backgroundLabel.add(backButton, gbc);
 
         add(backgroundLabel, BorderLayout.CENTER);
+    }
+
+    private FamilyPlanningPatient createPatient(String firstName, String lastName) {
+        FamilyPlanningPatient patient = new FamilyPlanningPatient();
+        patient.setName(firstName);
+        patient.setLastName(lastName);
+        return patient;
     }
 
     private JLabel createBackgroundLabel() {
@@ -32,7 +83,7 @@ public class PatientPanel extends JPanel {
         Image img = bg.getImage().getScaledInstance(FamilyPlanningUI.WINDOW_WIDTH, FamilyPlanningUI.WINDOW_HEIGHT, Image.SCALE_SMOOTH);
         return new JLabel(new ImageIcon(img));
     }
-    
+
     private JButton createButton(String text, ImageIcon icon, Color color) {
         JButton button = new JButton(text, icon);
         button.setFont(new Font("Segoe UI", Font.PLAIN, 30));
@@ -42,4 +93,9 @@ public class PatientPanel extends JPanel {
         button.setBorder(BorderFactory.createLineBorder(Color.BLACK, 4));
         return button;
     }
+
+    public FamilyPlanningPatient getSelectedPatient() {
+        return (FamilyPlanningPatient) patientComboBox.getSelectedItem();
+    }
+
 }
