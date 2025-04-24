@@ -1,8 +1,8 @@
 package edu.usm.healthsystem.service.inventory;
 
 import edu.usm.healthsystem.model.familyplanning.Item;
-import edu.usm.healthsystem.model.report.MonthlyReport;
 
+import java.time.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +12,7 @@ import java.util.List;
 public class InventoryService {
 
     private final List<Item> itemList = new ArrayList<>();
+    private final List<InventoryTransaction> transactionLog = new ArrayList<>();
 
     public InventoryService() {
         // Initialize inventory if needed
@@ -21,17 +22,18 @@ public class InventoryService {
      * Adds a new item to the inventory, if it does not yet exist in the system
      *
      * @param item The item to add
+     * 
      * @return true if operation was successful, false otherwise
      */
     public boolean addInventoryItem(Item item) {
         for (Item otherItem : itemList) {
             if (otherItem.getName().equals(item.getName())) {
-                System.out.printf("ERROR: item (%s) already exists in inventory\n", item.getName());
+                System.err.printf("ERROR: item (%s) already exists in inventory\n", item.getName());
                 return false;
             }
         }
         if (!(itemList.add(item))) {
-            System.out.printf("ERROR: failed to add item (%s) to inventory\n", item.getName());
+            System.err.printf("ERROR: failed to add item (%s) to inventory\n", item.getName());
             return false;
         } else return true;
     }
@@ -50,7 +52,7 @@ public class InventoryService {
     }
 
     /**
-     * Displays current inventory state.
+     * Displays current inventory state to the console.
      */
     public void viewInventory() {
         for (Item item : itemList) {
@@ -66,6 +68,7 @@ public class InventoryService {
      *
      * @param item   The item to increase stock of
      * @param amount The quantity to increase by
+     * 
      * @return true if operation was successful, false otherwise
      */
     private boolean addAmount(Item item, int amount) {
@@ -90,6 +93,7 @@ public class InventoryService {
      *
      * @param item   The item to reduce stock of
      * @param amount The quantity to reduce by
+     * 
      * @return true if operation was successful, false otherwise
      */
     private boolean subtractAmount(Item item, int amount) {
@@ -108,57 +112,92 @@ public class InventoryService {
         item.setAmount(item.getAmount() - amount);
         return true;
     }
+    
+    /**
+     * Records items issued to patients.
+     * 
+     * @param item   The issued item
+     * @param amount The quantity issued
+     * 
+     * @return true if operation was successful, false otherwise
+     */
+    public boolean enterIssuedItem(Item item, int amount) {
+    	if (subtractAmount(item, amount)) {
+    		if (transactionLog.add(new InventoryTransaction(LocalDate.now(), item, "issuance", -amount)))
+    			return true;
+    		else {
+    			System.err.printf("WARNING: could not create transaction for log\n");
+    			// this code isn't quite correct. if this block is reached, then the
+    			// operation to subtract from the inventory still worked. this
+    			// essentially means that an unlogged action has occurred.
+    		}
+    	}
+    	return false;
+    }
 
     /**
      * Records expired items in inventory.
      *
      * @param item   The expired item
      * @param amount The quantity expired
+     * 
      * @return true if operation was successful, false otherwise
      */
     public boolean enterExpiredItem(Item item, int amount) {
-        // TODO: Implement expired item logging
-        return subtractAmount(item, amount);
+    	if (subtractAmount(item, amount)) {
+    		if (transactionLog.add(new InventoryTransaction(LocalDate.now(), item, "expiration", -amount)))
+    			return true;
+    		else {
+    			System.err.printf("WARNING: could not create transaction for log\n");
+    			// this code isn't quite correct. if this block is reached, then the
+    			// operation to subtract from the inventory still worked. this
+    			// essentially means that an unlogged action has occurred.
+    		}
+    	}
+    	return false;
     }
 
     /**
-     * Records items transferred to another facility.
+     * Records items transfered to another facility.
      *
      * @param item   The transferred item
      * @param amount The quantity transferred
+     * 
      * @return true if operation was successful, false otherwise
      */
     public boolean enterTransferredItems(Item item, int amount) {
-        // TODO: Implement transferred items logging
-        return subtractAmount(item, amount);
+    	if (subtractAmount(item, amount)) {
+    		if (transactionLog.add(new InventoryTransaction(LocalDate.now(), item, "transfered", -amount)))
+    			return true;
+    		else {
+    			System.err.printf("WARNING: could not create transaction for log\n");
+    			// this code isn't quite correct. if this block is reached, then the
+    			// operation to subtract from the inventory still worked. this
+    			// essentially means that an unlogged action has occurred.
+    		}
+    	}
+    	return false;
     }
 
     /**
-     * Records items received into inventory.
+     * Records items received from another facility.
      *
      * @param item   The received item
      * @param amount The quantity received
+     * 
      * @return true if operation was successful, false otherwise
      */
     public boolean enterReceivedItems(Item item, int amount) {
-        // TODO: Implement received items recording
-        return addAmount(item, amount);
-    }
-
-    /**
-     * Records a patient visit that may consume inventory items.
-     */
-    public void enterVisit() {
-        // TODO: Implement visit recording
-    }
-
-    /**
-     * Generates a monthly inventory report.
-     *
-     * @return The generated monthly report
-     */
-    public MonthlyReport generateMonthlyReport() {
-        // TODO: Implement monthly report generation
-        return new MonthlyReport();
+    	if (addAmount(item, amount)) {
+    		if (transactionLog.add(new InventoryTransaction(LocalDate.now(), item, "received", amount)))
+    			return true;
+    		else {
+    			System.err.printf("WARNING: could not create transaction for log\n");
+    			// this code isn't quite correct. if this block is reached, then the
+    			// operation to subtract from the inventory still worked. this
+    			// essentially means that an unlogged action has occurred.
+    		}
+    	}
+    	return false;
     }
 }

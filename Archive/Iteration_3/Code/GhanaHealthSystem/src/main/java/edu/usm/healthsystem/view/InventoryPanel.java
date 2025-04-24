@@ -18,7 +18,7 @@ public class InventoryPanel extends JPanel {
         JButton generateReportButton = createButton("    Generate Report", reportIcon, new Color(71, 163, 255));
         JButton backButton = createButton("    Back", backIcon, new Color(232, 60, 60));
 
-        addTransactionButton.addActionListener(e -> System.out.println("Add Transaction button clicked"));
+        addTransactionButton.addActionListener(e -> new InventoryTransactionController(parent).handleGenerateReport());
         generateReportButton.addActionListener(e -> new MonthlyReportController(parent).handleGenerateReport());
         backButton.addActionListener(e -> parent.showView("Menu"));
 
