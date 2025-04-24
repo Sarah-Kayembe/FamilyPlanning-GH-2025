@@ -125,7 +125,7 @@ public class InventoryService {
     public boolean enterManuallySetItem(Item item, int amount) {
     	int oldAmount = item.getAmount();
     	if (setAmount(item, amount)) {
-    		if (transactionLog.add(new InventoryTransaction(LocalDate.now(), item, "manual adjustment", (amount - oldAmount))));
+    		if (transactionLog.add(new InventoryTransaction(LocalDate.now(), item, "manual adjustment", (amount - oldAmount), null)));
     		return true;
     	}
     	else {
@@ -134,7 +134,7 @@ public class InventoryService {
 			// operation to subtract from the inventory still worked. this
 			// essentially means that an unlogged action has occurred.
     	}
-	return false;
+    	return false;
     }
     
     /**
@@ -147,7 +147,7 @@ public class InventoryService {
      */
     public boolean enterIssuedItem(Item item, int amount) {
     	if (subtractAmount(item, amount)) {
-    		if (transactionLog.add(new InventoryTransaction(LocalDate.now(), item, "issuance", -amount)))
+    		if (transactionLog.add(new InventoryTransaction(LocalDate.now(), item, "issuance", -amount, null)))
     			return true;
     		else {
     			System.err.printf("WARNING: could not create transaction for log\n");
@@ -169,7 +169,7 @@ public class InventoryService {
      */
     public boolean enterExpiredItem(Item item, int amount) {
     	if (subtractAmount(item, amount)) {
-    		if (transactionLog.add(new InventoryTransaction(LocalDate.now(), item, "expiration", -amount)))
+    		if (transactionLog.add(new InventoryTransaction(LocalDate.now(), item, "expiration", -amount, null)))
     			return true;
     		else {
     			System.err.printf("WARNING: could not create transaction for log\n");
@@ -181,17 +181,19 @@ public class InventoryService {
     	return false;
     }
 
+
     /**
      * Records items transfered to another facility.
      *
      * @param item   The transferred item
      * @param amount The quantity transferred
+     * @param transferLocation The location transferred to
      * 
      * @return true if operation was successful, false otherwise
      */
-    public boolean enterTransferredItems(Item item, int amount) {
+    public boolean enterTransferredItems(Item item, int amount, String transferLocation) {
     	if (subtractAmount(item, amount)) {
-    		if (transactionLog.add(new InventoryTransaction(LocalDate.now(), item, "transfered", -amount)))
+    		if (transactionLog.add(new InventoryTransaction(LocalDate.now(), item, "transfered", -amount, transferLocation)))
     			return true;
     		else {
     			System.err.printf("WARNING: could not create transaction for log\n");
@@ -213,7 +215,7 @@ public class InventoryService {
      */
     public boolean enterReceivedItems(Item item, int amount) {
     	if (addAmount(item, amount)) {
-    		if (transactionLog.add(new InventoryTransaction(LocalDate.now(), item, "received", amount)))
+    		if (transactionLog.add(new InventoryTransaction(LocalDate.now(), item, "received", amount, null)))
     			return true;
     		else {
     			System.err.printf("WARNING: could not create transaction for log\n");

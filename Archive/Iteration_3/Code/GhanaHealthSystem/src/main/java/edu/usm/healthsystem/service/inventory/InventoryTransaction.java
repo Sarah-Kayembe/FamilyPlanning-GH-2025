@@ -29,5 +29,9 @@ public class InventoryTransaction {
 	private int stockChange;
 	
 	
+	/**
+	 * The location the item was transferred, if it is a transfer transaction
+	 */
+	private String transferredTo;
 
 }
