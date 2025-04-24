@@ -59,6 +59,15 @@ public class InventoryService {
             System.out.printf("%s: %d\n", item.getName(), item.getAmount());
         }
     }
+    
+    private boolean setAmount(Item item, int amount) {
+    	if (!(itemList.contains(item))) {
+            System.err.printf("ERROR: item not found in inventory (%s)\n", item.getName());
+            return false;
+        }
+    	item.setAmount(amount);
+    	return true;
+    }
 
     /**
      * Increases the current stock of an item in the inventory
@@ -111,6 +120,21 @@ public class InventoryService {
         }
         item.setAmount(item.getAmount() - amount);
         return true;
+    }
+    
+    public boolean enterManuallySetItem(Item item, int amount) {
+    	int oldAmount = item.getAmount();
+    	if (setAmount(item, amount)) {
+    		if (transactionLog.add(new InventoryTransaction(LocalDate.now(), item, "manual adjustment", (amount - oldAmount))));
+    		return true;
+    	}
+    	else {
+			System.err.printf("WARNING: could not create transaction for log\n");
+			// this code isn't quite correct. if this block is reached, then the
+			// operation to subtract from the inventory still worked. this
+			// essentially means that an unlogged action has occurred.
+    	}
+	return false;
     }
     
     /**
