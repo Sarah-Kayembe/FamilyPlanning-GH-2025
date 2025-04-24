@@ -11,7 +11,7 @@ import java.util.List;
 
 public class PatientPanel extends JPanel {
 
-    private JComboBox<FamilyPlanningPatient> patientComboBox;
+    private JComboBox<Object> patientComboBox;
 
     public PatientPanel(FamilyPlanningUI parent) {
         setLayout(new BorderLayout());
@@ -35,8 +35,11 @@ public class PatientPanel extends JPanel {
         gbc.gridy = 0;
         backgroundLabel.add(titleLabel, gbc);
 
-        // Patient ComboBox
-        patientComboBox = new JComboBox<>(familyPlanningPatients.toArray(new FamilyPlanningPatient[0]));
+        // Patient ComboBox with placeholder
+        DefaultComboBoxModel<Object> model = new DefaultComboBoxModel<>();
+        model.addElement("-- Select a Patient --");
+        familyPlanningPatients.forEach(model::addElement);
+        patientComboBox = new JComboBox<>(model);
         patientComboBox.setFont(new Font("Segoe UI", Font.PLAIN, 18));
         patientComboBox.setPreferredSize(new Dimension(400, 40));
         patientComboBox.setRenderer(new DefaultListCellRenderer() {
@@ -44,9 +47,10 @@ public class PatientPanel extends JPanel {
             public Component getListCellRendererComponent(JList<?> list, Object value, int index,
                                                           boolean isSelected, boolean cellHasFocus) {
                 super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                if (value instanceof FamilyPlanningPatient) {
-                    FamilyPlanningPatient patient = (FamilyPlanningPatient) value;
-                    setText(patient.getName() + " " + patient.getLastName());
+                if (value instanceof FamilyPlanningPatient p) {
+                    setText(p.getName() + " " + p.getLastName());
+                } else if (value instanceof String s) {
+                    setText(s);
                 }
                 return this;
             }
@@ -55,17 +59,35 @@ public class PatientPanel extends JPanel {
         backgroundLabel.add(patientComboBox, gbc);
 
         // Create Appointment Button
-        ImageIcon editIcon = FamilyPlanningUI.createResizedIcon("src/main/resources/images/back_icon.png", 80, 80);
-        JButton editAppointmentButton = createButton("      Create Appointment", editIcon, new Color(62, 181, 62));
-        editAppointmentButton.addActionListener(e -> System.out.println("Create button clicked"));
+        ImageIcon icon = FamilyPlanningUI.createResizedIcon("src/main/resources/images/back_icon.png", 80, 80);
+        JButton createButton = createButton("      Create Appointment", icon, new Color(62, 181, 62));
+        createButton.addActionListener(e -> {
+            if (getSelectedPatient() == null) {
+                JOptionPane.showMessageDialog(this, "Please select a patient first.");
+            } else {
+                System.out.println("Create Appointment for: " + getSelectedPatient().getName());
+            }
+        });
         gbc.gridy = 2;
-        backgroundLabel.add(editAppointmentButton, gbc);
+        backgroundLabel.add(createButton, gbc);
+
+        // Generate Patient Report Button
+        JButton reportButton = createButton(" Generate Patient Report", icon, new Color(60, 130, 200));
+        reportButton.addActionListener(e -> {
+            if (getSelectedPatient() == null) {
+                JOptionPane.showMessageDialog(this, "Please select a patient first.");
+            } else {
+                System.out.println("Generating report for: " + getSelectedPatient().getName());
+            }
+        });
+        gbc.gridy = 3;
+        backgroundLabel.add(reportButton, gbc);
 
         // Back Button
         ImageIcon backIcon = FamilyPlanningUI.createResizedIcon("src/main/resources/images/back_icon.png", 80, 80);
         JButton backButton = createButton("    Back", backIcon, new Color(232, 60, 60));
         backButton.addActionListener(e -> parent.showView("Menu"));
-        gbc.gridy = 3;
+        gbc.gridy = 4;
         backgroundLabel.add(backButton, gbc);
 
         add(backgroundLabel, BorderLayout.CENTER);
@@ -80,7 +102,11 @@ public class PatientPanel extends JPanel {
 
     private JLabel createBackgroundLabel() {
         ImageIcon bg = new ImageIcon(FamilyPlanningUI.BACKGROUND_PATH);
-        Image img = bg.getImage().getScaledInstance(FamilyPlanningUI.WINDOW_WIDTH, FamilyPlanningUI.WINDOW_HEIGHT, Image.SCALE_SMOOTH);
+        Image img = bg.getImage().getScaledInstance(
+                FamilyPlanningUI.WINDOW_WIDTH,
+                FamilyPlanningUI.WINDOW_HEIGHT,
+                Image.SCALE_SMOOTH
+        );
         return new JLabel(new ImageIcon(img));
     }
 
@@ -95,7 +121,7 @@ public class PatientPanel extends JPanel {
     }
 
     public FamilyPlanningPatient getSelectedPatient() {
-        return (FamilyPlanningPatient) patientComboBox.getSelectedItem();
+        Object selected = patientComboBox.getSelectedItem();
+        return (selected instanceof FamilyPlanningPatient) ? (FamilyPlanningPatient) selected : null;
     }
-
 }
