@@ -204,7 +204,7 @@ public class InventoryService {
      */
     public boolean enterIssuedItems(Item item, int amount) {
     	if (subtractAmount(item, amount)) {
-    		if (transactionLog.add(new InventoryTransaction(LocalDate.now(), item, "issuance", -amount, null)))
+    		if (transactionLog.add(new InventoryTransaction(LocalDate.now(), item, "issuance", amount, null)))
     			return true;
     		else {
     			System.err.printf("WARNING: could not create transaction for log\n");
@@ -226,7 +226,7 @@ public class InventoryService {
      */
     public boolean enterExpiredItems(Item item, int amount) {
     	if (subtractAmount(item, amount)) {
-    		if (transactionLog.add(new InventoryTransaction(LocalDate.now(), item, "expiration", -amount, null)))
+    		if (transactionLog.add(new InventoryTransaction(LocalDate.now(), item, "expiration", amount, null)))
     			return true;
     		else {
     			System.err.printf("WARNING: could not create transaction for log\n");
@@ -250,7 +250,7 @@ public class InventoryService {
      */
     public boolean enterTransferredItems(Item item, int amount, String transferLocation) {
     	if (subtractAmount(item, amount)) {
-    		if (transactionLog.add(new InventoryTransaction(LocalDate.now(), item, "transferred", -amount, transferLocation)))
+    		if (transactionLog.add(new InventoryTransaction(LocalDate.now(), item, "transferred", amount, transferLocation)))
     			return true;
     		else {
     			System.err.printf("WARNING: could not create transaction for log\n");
@@ -300,7 +300,7 @@ public class InventoryService {
      * @return a list of transferred transactions
      */
     public List<InventoryTransaction> getTransferredTransactions() {
-        return getTransactionsByType("transfered");
+        return getTransactionsByType("transferred");
     }
 
     /**

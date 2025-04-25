@@ -115,6 +115,11 @@ public class StockDataGenerator {
                     row[i] = tx.getTransferredTo();
             }
         }
+        
+        for (String s : row) {
+        	if(s == null)
+        		s = "";
+        }
 
         return row;
 	}
@@ -179,7 +184,7 @@ public class StockDataGenerator {
      * @return - Row 7 of the report in array form
      */
     private static String[] rowSeven() {
-    	String[] r7 = {"7. Number of months required", "", "12", "12", "12", "12", "12", "12", "12", "12", "12", "12", "12", "12", "12", "12"}; 
+    	String[] r7 = {"7. Number of months required", "", "50", "50", "50", "50", "50", "50", "50", "50", "50", "50", "50", "50", "50", "50"}; 
     	// Hard coded in -- one year requirement for now.
     	
     	
@@ -235,7 +240,7 @@ public class StockDataGenerator {
         }
 
         // Populate the row with stringified values
-        for (int i = 2; i < MonthlyReport.COLUMNS; i++) {
+        for (int i = 1; i < MonthlyReport.COLUMNS; i++) {
             row[i] = categorySums[i] == 0 ? "" : String.valueOf(categorySums[i]);
         }
 
