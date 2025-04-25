@@ -42,7 +42,7 @@ public class InventoryService {
      * 
      * @return the InventoryService instance
      */
-    public InventoryService getInstance() {
+    public static InventoryService getInstance() {
     	if (instance == null) {
     		instance = new InventoryService();
     	}
