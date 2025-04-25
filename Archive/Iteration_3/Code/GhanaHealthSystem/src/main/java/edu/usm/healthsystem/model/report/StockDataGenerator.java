@@ -3,12 +3,21 @@ package edu.usm.healthsystem.model.report;
 import java.util.List;
 import java.util.Map;
 
+import edu.usm.healthsystem.model.familyplanning.Item;
+import edu.usm.healthsystem.service.inventory.InventoryService;
+import edu.usm.healthsystem.service.inventory.InventoryTransaction;
+
 public class StockDataGenerator {
+	private static InventoryService inventory;
+	private final static String[] categories = {"", "", "LO-FEM", "Overette", "Male Condom", "Female Condom", 
+            "Copper T", "Micro G", "Micr - N", "Postinor 2", "Sampoo", "Depo", "Vasectomy", "LAM", "Natural", "Norigynon"};
 
     /**
      * @param report
      */
     public static void addInfo(List<String[]> report, Map<String, Integer> row6b) {
+    	inventory = InventoryService.getInstance();
+    	
         String[] r1 = rowOne();
         String[] r2 = rowTwo();
         String[] r3 = rowThree();
@@ -51,11 +60,17 @@ public class StockDataGenerator {
     private static String[] rowOne() {
     	String[] r1 = {"1. Beginning", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""};
     	
-    	// column 1 skipped because it is for totals further down.
-    	for(int i = 2; i < MonthlyReport.COLUMNS; i++) {
-    		// Add item info from the beginning of the month
-    	}
-    	
+    	List<Item> beginning = inventory.getBeginningSnapshot();
+        for (int i = 2; i < MonthlyReport.COLUMNS; i++) {
+            String category = categories[i];
+            for (Item item : beginning) {
+                if (item.getName().equals(category)) {
+                    r1[i] = String.valueOf(item.getAmount());
+                    break;
+                }
+            }
+        }
+        
     	return r1;
 	}
     
@@ -63,41 +78,23 @@ public class StockDataGenerator {
      * @return - Row 2 of the report in array form
      */
     private static String[] rowTwo() {
-    	String[] r2 = {"2. Received", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""}; 
-    	
-    	
-    	for(int i = 2; i < MonthlyReport.COLUMNS; i++) {
-    		// Add received information from the current month
-    	}
-    	
-    	
-    	return r2;
+    	// System.out.print(inventory.getReceivedTransactions());
+    	return transactionRow("2. Received", inventory.getReceivedTransactions());
 	}
     
     /**
      * @return - Row 3 of the report in array form
      */
     private static String[] rowThree() {
-    	String[] r3 = {"3. Issued", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""};
-    	
-    	for(int i = 2; i < MonthlyReport.COLUMNS; i++) {
-    		// Add received information from the current month
-    	}
-    	
-    	return r3;
+    	// System.out.print(inventory.getIssuedTransactions());
+    	return transactionRow("3. Issued", inventory.getIssuedTransactions());
 	}
 
     /**
      * @return - Row 4a of the report in array form
      */
     private static String[] rowFourA() {
-    	String[] r4a = {"4a. Transferred Amount", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""};
-    	
-    	for(int i = 2; i < MonthlyReport.COLUMNS; i++) {
-    		// Add transferred amount information from the current month
-    	}
-    	
-    	return r4a;
+    	return transactionRow("4a. Transferred Amount", inventory.getTransferredTransactions());
 	}
 
 
@@ -105,13 +102,21 @@ public class StockDataGenerator {
      * @return - Row 4b of the report in array form
      */
     private static String[] rowFourB() {
-    	String[] r4b = {"4b. To Where? (MOH/GMRA/PPAG/CC/Private)", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""};
-    	
-    	for(int i = 2; i < MonthlyReport.COLUMNS; i++) {
-    		// Add transferred location information from the current month
-    	}
+    	List<InventoryTransaction> transactions = inventory.getTransferredTransactions();
+        String[] row = new String[MonthlyReport.COLUMNS];
+        row[0] = "4b. To Where? (MOH/GMRA/PPAG/CC/Private)";
 
-    	return r4b;
+
+        for (InventoryTransaction tx : transactions) {
+            String itemName = tx.getItem().getName();
+
+            for (int i = 2; i < MonthlyReport.COLUMNS; i++) {
+                if (itemName.equals(categories[i])) 
+                    row[i] = tx.getTransferredTo();
+            }
+        }
+
+        return row;
 	}
 
 
@@ -119,13 +124,7 @@ public class StockDataGenerator {
      * @return - Row 5 of the report in array form
      */
     private static String[] rowFive() {
-    	String[] r5 = {"5. Loss/Expired", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""}; 
-    	
-    	for(int i = 2; i < MonthlyReport.COLUMNS; i++) {
-    		// Add expired information from the current month
-    	}
-    	
-    	return r5;
+    	return transactionRow("5. Loss/Expired", inventory.getExpiredTransactions());
 	}
     
     
@@ -168,8 +167,7 @@ public class StockDataGenerator {
     	r6[1] = "";
     	
     	for(int i = 2; i < MonthlyReport.COLUMNS; i++) {
-    		Integer num = data.get(header[i]);
-    		r6[i] = num.toString();
+    		r6[i] = data.get(header[i]).toString();
     	}
     	
     	return r6;
@@ -181,7 +179,9 @@ public class StockDataGenerator {
      * @return - Row 7 of the report in array form
      */
     private static String[] rowSeven() {
-    	String[] r7 = {"7. Number of months required", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""}; 
+    	String[] r7 = {"7. Number of months required", "", "12", "12", "12", "12", "12", "12", "12", "12", "12", "12", "12", "12", "12", "12"}; 
+    	// Hard coded in -- one year requirement for now.
+    	
     	
     	for(int i = 2; i < MonthlyReport.COLUMNS; i++) {
     		// Add expired information from the current month
@@ -214,5 +214,32 @@ public class StockDataGenerator {
     	return r8;
     }
     
+    
+    private static String[] transactionRow(String label, List<InventoryTransaction> transactions) {
+        String[] row = new String[MonthlyReport.COLUMNS];
+        row[0] = label;
+
+        // Initialize numeric values for summing amounts per category
+        int[] categorySums = new int[MonthlyReport.COLUMNS];
+
+        for (InventoryTransaction tx : transactions) {
+            Item item = tx.getItem();
+            String itemName = item.getName();
+
+            for (int i = 2; i < MonthlyReport.COLUMNS; i++) {
+                if (itemName.equalsIgnoreCase(categories[i])) {
+                    categorySums[i] += tx.getStockChange();  // Amount might be negative (e.g., issuance)
+                    break;
+                }
+            }
+        }
+
+        // Populate the row with stringified values
+        for (int i = 2; i < MonthlyReport.COLUMNS; i++) {
+            row[i] = categorySums[i] == 0 ? "" : String.valueOf(categorySums[i]);
+        }
+
+        return row;
+    }
 
 }

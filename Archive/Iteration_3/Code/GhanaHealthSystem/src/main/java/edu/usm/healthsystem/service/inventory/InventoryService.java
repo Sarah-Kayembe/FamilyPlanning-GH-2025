@@ -9,16 +9,60 @@ import java.util.List;
 /**
  * Service handling inventory management operations.
  */
-public class InventoryService {
+public class InventoryService { 
 
+	private static InventoryService instance = null;
+
+	private final List<Item> beginningList = new ArrayList<>();
     private final List<Item> itemList = new ArrayList<>();
     private final List<InventoryTransaction> transactionLog = new ArrayList<>();
 
     public InventoryService() {
-        // Initialize inventory if needed
+    	this.addInventoryItem(new Item("LO-FEM", 0));
+    	this.addInventoryItem(new Item("Overette", 0));
+    	this.addInventoryItem(new Item("Male Condom", 0));
+    	this.addInventoryItem(new Item("Female Condom", 0));
+    	this.addInventoryItem(new Item("Copper T", 0));
+    	this.addInventoryItem(new Item("Micro G", 0));
+    	this.addInventoryItem(new Item("Micr - N", 0));
+    	this.addInventoryItem(new Item("Postinor 2", 0));
+    	this.addInventoryItem(new Item("Sampoo", 0));
+    	this.addInventoryItem(new Item("Depo", 0));
+    	this.addInventoryItem(new Item("Vasectomy", 0));
+    	this.addInventoryItem(new Item("LAM", 0));
+    	this.addInventoryItem(new Item("Natural", 0));
+    	this.addInventoryItem(new Item("Norigynon", 0));
     }
+    
 
     /**
+     * @return the singleton instance of InventoryService.
+     */
+    public static InventoryService getInstance() {
+        if(instance == null)
+        	instance = new InventoryService();
+        return instance;
+    }
+    
+
+    /**
+     * Replaces the current item list with a new one.
+     * 
+     * @param items The new list of items to set
+     */
+    public void setInventoryItems(List<Item> items) {
+        synchronized (itemList) {
+            itemList.clear();
+            itemList.addAll(items);
+        }
+        synchronized (beginningList) {
+        	beginningList.clear();
+        	beginningList.addAll(items);
+        }
+    }
+
+
+	/**
      * Adds a new item to the inventory, if it does not yet exist in the system
      *
      * @param item The item to add
@@ -48,6 +92,19 @@ public class InventoryService {
     public List<Item> getInventorySnapshot() {
         ArrayList<Item> snapshot = new ArrayList<>();
         snapshot.addAll(itemList);
+        return snapshot;
+    }
+    
+    /**
+     * Returns a "snapshot" of the beginning state of the InventoryService, which
+     * copies all Items in the Inventory and their counts to a new List object.
+     *
+     * @return a List containing the InvertoryService's state when this method
+     * was invoked
+     */
+    public List<Item> getBeginningSnapshot() {
+        ArrayList<Item> snapshot = new ArrayList<>();
+        snapshot.addAll(beginningList);
         return snapshot;
     }
 
@@ -145,7 +202,7 @@ public class InventoryService {
      * 
      * @return true if operation was successful, false otherwise
      */
-    public boolean enterIssuedItem(Item item, int amount) {
+    public boolean enterIssuedItems(Item item, int amount) {
     	if (subtractAmount(item, amount)) {
     		if (transactionLog.add(new InventoryTransaction(LocalDate.now(), item, "issuance", -amount, null)))
     			return true;
@@ -167,7 +224,7 @@ public class InventoryService {
      * 
      * @return true if operation was successful, false otherwise
      */
-    public boolean enterExpiredItem(Item item, int amount) {
+    public boolean enterExpiredItems(Item item, int amount) {
     	if (subtractAmount(item, amount)) {
     		if (transactionLog.add(new InventoryTransaction(LocalDate.now(), item, "expiration", -amount, null)))
     			return true;
@@ -193,7 +250,7 @@ public class InventoryService {
      */
     public boolean enterTransferredItems(Item item, int amount, String transferLocation) {
     	if (subtractAmount(item, amount)) {
-    		if (transactionLog.add(new InventoryTransaction(LocalDate.now(), item, "transfered", -amount, transferLocation)))
+    		if (transactionLog.add(new InventoryTransaction(LocalDate.now(), item, "transferred", -amount, transferLocation)))
     			return true;
     		else {
     			System.err.printf("WARNING: could not create transaction for log\n");
@@ -225,5 +282,58 @@ public class InventoryService {
     		}
     	}
     	return false;
+    }
+    
+    
+    /**
+     * Returns all transactions of type "received".
+     *
+     * @return a list of received transactions
+     */
+    public List<InventoryTransaction> getReceivedTransactions() {
+        return getTransactionsByType("received");
+    }
+
+    /**
+     * Returns all transactions of type "transferred".
+     *
+     * @return a list of transferred transactions
+     */
+    public List<InventoryTransaction> getTransferredTransactions() {
+        return getTransactionsByType("transfered");
+    }
+
+    /**
+     * Returns all transactions of type "expiration".
+     *
+     * @return a list of expired transactions
+     */
+    public List<InventoryTransaction> getExpiredTransactions() {
+        return getTransactionsByType("expiration");
+    }
+
+    /**
+     * Returns all transactions of type "issuance".
+     *
+     * @return a list of issued transactions
+     */
+    public List<InventoryTransaction> getIssuedTransactions() {
+        return getTransactionsByType("issuance");
+    }
+
+    /**
+     * Generic method for filtering transactions by type.
+     *
+     * @param type the transaction type to filter by
+     * @return a list of matching transactions
+     */
+    private List<InventoryTransaction> getTransactionsByType(String type) {
+        List<InventoryTransaction> filtered = new ArrayList<>();
+        for (InventoryTransaction transaction : transactionLog) {
+            if (transaction.getTransactionType().equals(type)) 
+                filtered.add(transaction);
+        }
+        
+        return filtered;
     }
 }
