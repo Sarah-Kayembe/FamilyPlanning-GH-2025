@@ -11,17 +11,12 @@ import java.util.List;
  */
 public class InventoryService { 
 
-<<<<<<< HEAD
-	private InventoryService instance;
-=======
 	private static InventoryService instance = null;
-
 	private final List<Item> beginningList = new ArrayList<>();
->>>>>>> branch 'ethan-iteration3' of git@github.com:Sarah-Kayembe/FamilyPlanning-GH-2025.git
     private final List<Item> itemList = new ArrayList<>();
     private final List<InventoryTransaction> transactionLog = new ArrayList<>();
 
-<<<<<<< HEAD
+
     /**
      * Creates a new InventoryService with default items, each initialized to zero stock.
      */
@@ -43,8 +38,7 @@ public class InventoryService {
     }
     
     /**
-     * Returns the Singleton instance of the InventoryService. If one does not
-     * exist, it is created.
+     * Returns the Singleton instance of the InventoryService.
      * 
      * @return the InventoryService instance
      */
@@ -53,35 +47,7 @@ public class InventoryService {
     		instance = new InventoryService();
     	}
     	return instance;
-=======
-    public InventoryService() {
-    	this.addInventoryItem(new Item("LO-FEM", 0));
-    	this.addInventoryItem(new Item("Overette", 0));
-    	this.addInventoryItem(new Item("Male Condom", 0));
-    	this.addInventoryItem(new Item("Female Condom", 0));
-    	this.addInventoryItem(new Item("Copper T", 0));
-    	this.addInventoryItem(new Item("Micro G", 0));
-    	this.addInventoryItem(new Item("Micr - N", 0));
-    	this.addInventoryItem(new Item("Postinor 2", 0));
-    	this.addInventoryItem(new Item("Sampoo", 0));
-    	this.addInventoryItem(new Item("Depo", 0));
-    	this.addInventoryItem(new Item("Vasectomy", 0));
-    	this.addInventoryItem(new Item("LAM", 0));
-    	this.addInventoryItem(new Item("Natural", 0));
-    	this.addInventoryItem(new Item("Norigynon", 0));
->>>>>>> branch 'ethan-iteration3' of git@github.com:Sarah-Kayembe/FamilyPlanning-GH-2025.git
     }
-    
-
-    /**
-     * @return the singleton instance of InventoryService.
-     */
-    public static InventoryService getInstance() {
-        if(instance == null)
-        	instance = new InventoryService();
-        return instance;
-    }
-    
 
     /**
      * Replaces the current item list with a new one.
