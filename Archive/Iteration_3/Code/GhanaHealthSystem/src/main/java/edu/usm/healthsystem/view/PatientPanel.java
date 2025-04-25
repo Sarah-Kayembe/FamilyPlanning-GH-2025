@@ -2,21 +2,27 @@ package edu.usm.healthsystem.view;
 
 import edu.usm.healthsystem.model.client.Patient;
 import edu.usm.healthsystem.model.familyplanning.FamilyPlanningPatient;
+import edu.usm.healthsystem.model.report.MonthlyReport;
+import edu.usm.healthsystem.model.report.PatientReport;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class PatientPanel extends JPanel {
 
     private JComboBox<Object> patientComboBox;
+    private List<FamilyPlanningPatient> familyPlanningPatients;
+    private final PatientReportController reportController;
 
     public PatientPanel(FamilyPlanningUI parent) {
         setLayout(new BorderLayout());
+        reportController = new PatientReportController(parent);
 
-        List<FamilyPlanningPatient> familyPlanningPatients = Arrays.asList(
+        familyPlanningPatients = Arrays.asList(
                 createPatient("John", "Doe"),
                 createPatient("Jane", "Smith"),
                 createPatient("Alice", "Johnson")
@@ -60,24 +66,27 @@ public class PatientPanel extends JPanel {
 
         // Create Appointment Button
         ImageIcon icon = FamilyPlanningUI.createResizedIcon("src/main/resources/images/back_icon.png", 80, 80);
-        JButton createButton = createButton("      Create Appointment", icon, new Color(62, 181, 62));
+        JButton createButton = createButton("      Create Appointment", null, new Color(62, 181, 62));
         createButton.addActionListener(e -> {
-            if (getSelectedPatient() == null) {
+            FamilyPlanningPatient selectedPatient = getSelectedPatient();
+            if (selectedPatient == null) {
                 JOptionPane.showMessageDialog(this, "Please select a patient first.");
             } else {
-                System.out.println("Create Appointment for: " + getSelectedPatient().getName());
+                PatientReportController.handleCreateAppointment(selectedPatient);
             }
         });
         gbc.gridy = 2;
         backgroundLabel.add(createButton, gbc);
 
         // Generate Patient Report Button
-        JButton reportButton = createButton(" Generate Patient Report", icon, new Color(60, 130, 200));
+        ImageIcon reportIcon = FamilyPlanningUI.createResizedIcon("src/main/resources/images/report_icon.png", 80, 80);
+        JButton reportButton = createButton("Generate Report", reportIcon, new Color(60, 130, 200));
         reportButton.addActionListener(e -> {
-            if (getSelectedPatient() == null) {
+            FamilyPlanningPatient selectedPatient = getSelectedPatient();
+            if (selectedPatient == null) {
                 JOptionPane.showMessageDialog(this, "Please select a patient first.");
             } else {
-                System.out.println("Generating report for: " + getSelectedPatient().getName());
+                PatientReportController.handleGenerateReport(selectedPatient);
             }
         });
         gbc.gridy = 3;
