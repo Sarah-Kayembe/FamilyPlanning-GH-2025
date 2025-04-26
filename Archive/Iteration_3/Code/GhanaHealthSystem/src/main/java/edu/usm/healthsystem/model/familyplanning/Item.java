@@ -1,5 +1,7 @@
 package edu.usm.healthsystem.model.familyplanning;
 
+import java.util.Objects;
+
 import lombok.*;
 
 /**
@@ -19,5 +21,24 @@ public class Item {
      * The quantity of the item in inventory
      */
     private int amount;
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Item other = (Item) obj;
+		return Objects.equals(name, other.name);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(amount, name);
+	}
+    
+    
     
 }

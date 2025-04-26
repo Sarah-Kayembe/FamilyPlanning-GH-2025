@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 
 import edu.usm.healthsystem.model.familyplanning.Item;
 import edu.usm.healthsystem.model.report.MonthlyReport;
+import edu.usm.healthsystem.service.inventory.InventoryService;
 
 public class MonthlyReportController {
 
@@ -78,21 +79,23 @@ public class MonthlyReportController {
             
             int quantity = Integer.parseInt(quantityStr.trim());
             Item item = new Item(selectedItem, quantity);
+            InventoryService inventory = InventoryService.getInstance();
             		
             switch (reason) {
             case "Issued":
-            	// enterIssuedItem(item, quantity)
+            	inventory.enterIssuedItems(item, quantity);
                 break;
             case "Expired/Loss":
-            	// enterExpiredItem(item, quantity)
+            	inventory.enterExpiredItems(item, quantity);
                 break;
             case "Transferred":
-            	// enterTransferredItem(item, quantity, transferPartner)
+            	inventory.enterTransferredItems(item, quantity, transferPartner);
                 break;
             case "Received":
-            	// enterReceivedItem(item, quantity)
+            	inventory.enterReceivedItems(item, quantity);
                 break;
             default:
+            	System.err.printf("Reason (%s) doesn't exist for transactions.", reason);
                 break;
             }
 
@@ -129,7 +132,9 @@ public class MonthlyReportController {
                     .map(entry -> new Item(entry.getKey(), entry.getValue()))
                     .collect(Collectors.toList());
             
-           // some sort of set stock method in the inventory service
+            InventoryService inventory = InventoryService.getInstance();
+            
+            inventory.setInventoryItems(items);
 
             JOptionPane.showMessageDialog(parent, "Inventory stock was set successfully!");
         }

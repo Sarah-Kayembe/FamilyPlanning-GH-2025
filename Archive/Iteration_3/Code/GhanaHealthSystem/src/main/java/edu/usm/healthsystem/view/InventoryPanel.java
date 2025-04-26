@@ -20,7 +20,7 @@ public class InventoryPanel extends JPanel {
         ImageIcon backIcon = FamilyPlanningUI.createResizedIcon("src/main/resources/images/back_icon.png", 80, 80);
 
         JButton addTransactionButton = createButton("      Add Transaction", addIcon, new Color(62, 181, 62));
-        JButton generateReportButton = createButton("    Generate Report", reportIcon, new Color(71, 163, 255));
+        JButton generateReportButton = createButton("  Generate Report", reportIcon, new Color(71, 163, 255));
         JButton previewReportButton = createButton("   Preview Report", previewIcon, new Color(255, 193, 7));
         JButton setStockButton = createButton("   Set Stock", setStockIcon, new Color(224, 67, 255));
         JButton backButton = createButton("    Back", backIcon, new Color(232, 60, 60));
