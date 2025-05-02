@@ -15,7 +15,6 @@ The system improves accuracy, speeds up record-keeping, and enhances data access
 ## Table of Contents
 
 - [Project Description](#-project-description)
-- [Demo](#-demo)
 - [Technologies Used](#-technologies-used)
 - [Team Responsibility](#-team-responsibility)
 - [AI Use During Project](#-ai-use-during-project)
