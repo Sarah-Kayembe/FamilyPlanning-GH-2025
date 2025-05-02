@@ -7,13 +7,16 @@ import edu.usm.healthsystem.model.report.PatientReport;
 import javax.swing.*;
 import java.time.Month;
 import java.util.Map;
+import java.util.List;
 
 public class PatientReportController {
 
     private static JFrame parent;
+    private static PatientPanel patientPanel;
 
-    public PatientReportController(JFrame parent) {
+    public PatientReportController(JFrame parent,PatientPanel panel) {
         PatientReportController.parent = parent;
+        patientPanel = panel;
     }
 
     public static void handleCreateAppointment(FamilyPlanningPatient patient) {
@@ -43,27 +46,14 @@ public class PatientReportController {
     }
 
     public static void handleGenerateReport(FamilyPlanningPatient patient) {
-        if (patient == null) {
-            JOptionPane.showMessageDialog(parent, "Please select a patient before generating a report.");
-            return;
-        }
+        List<FamilyPlanningPatient> patients = getPatientList();
 
-        int confirm = JOptionPane.showConfirmDialog(
-                parent,
-                "Generate a report for " + patient.getName() + " " + patient.getLastName() + "?",
-                "Confirm Report Generation",
-                JOptionPane.YES_NO_OPTION
-        );
+        PatientReportOptions dialog = new PatientReportOptions(parent,patient,patients);
+        dialog.setVisible(true);
+    }
 
-        if (confirm != JOptionPane.YES_OPTION) return;
-
-        try {
-            PatientReport report = new PatientReport();
-            report.generate(java.util.List.of(patient));
-            JOptionPane.showMessageDialog(parent, "Patient report generated successfully!");
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(parent, "Failed to generate patient report: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
+    private static List<FamilyPlanningPatient> getPatientList() {
+        return patientPanel.getFamilyPlanningPatients();
     }
 
 }
